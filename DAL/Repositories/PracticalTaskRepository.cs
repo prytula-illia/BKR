@@ -17,11 +17,6 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public void DeleteTaskWithData(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public PracticalTask Get(int id)
         {
             throw new NotImplementedException();

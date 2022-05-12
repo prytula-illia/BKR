@@ -7,7 +7,7 @@ namespace DAL.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public List<StudyingMaterials> StudyingMaterials { get; set; }
-        public PracticalTask Task { get; set; }
-
+        public List<PracticalTask> Tasks { get; set; }
+        public int Score { get; set; }
     }
 }

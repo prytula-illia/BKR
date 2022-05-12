@@ -2,7 +2,7 @@
 
 namespace DAL.Interfaces
 {
-    interface IThemeRepository : IRepository<Theme>
+    public interface IThemeRepository : IRepository<Theme>
     {
         public void DeleteThemeWithData(int id);
     }

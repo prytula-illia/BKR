@@ -1,10 +1,8 @@
 ﻿using DTOs;
-using System.Collections.Generic;
 
 namespace BLL.Interfaces
 {
-    public interface IStudyingMaterialsService
+    public interface IStudyingMaterialsService : ICrudService<StudyingMaterialsDto>
     {
-        public IEnumerable<StudyingMaterialsDto> GetAllStudyingMaterials();
     }
 }

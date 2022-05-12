@@ -27,16 +27,6 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public float GetTasksFinishedRateForTheme(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public float GetThemesFinishedRateForCourse(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(UserStatistics entity)
         {
             throw new NotImplementedException();
