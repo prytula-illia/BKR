@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using BLL.DTOs;
 using DAL.Entities;
+using DTOs;
 
 namespace WebApi.Mapper
 {
-    internal class AutomapperProfile : Profile
+    public class AutomapperProfile : Profile
     {
         public AutomapperProfile()
         {
-            CreateMap<LearnModule, LearnModuleDto>().ReverseMap();
+            CreateMap<StudyingMaterials, StudyingMaterialsDto>().ReverseMap();
         }
     }
 }
