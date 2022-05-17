@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using DTOs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -18,21 +19,23 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public void Create(CourseDto entity)
+        public async Task<int> Create(CourseDto entity)
         {
             var course = _mapper.Map<Course>(entity);
 
-            _repository.Create(course);
+            var result = await _repository.Create(course);
+
+            return result.Id;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.DeleteCourseWithData(id);
+            await _repository.DeleteCourseWithData(id);
         }
 
-        public CourseDto Get(int id)
+        public async Task<CourseDto> Get(int id)
         {
-            var course = _repository.Get(id);
+            var course = await _repository.Get(id);
 
             return _mapper.Map<CourseDto>(course);
         }
@@ -44,11 +47,11 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
 
-        public void Update(CourseDto entity)
+        public async Task Update(CourseDto entity)
         {
             var course = _mapper.Map<Course>(entity);
 
-            _repository.Update(course);
+            await _repository.Update(course);
         }
     }
 }

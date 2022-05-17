@@ -1,35 +1,47 @@
 ﻿using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> 
+    public class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        public void Create(T entity)
+        private readonly Context _context;
+
+        public BaseRepository(Context context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(int id)
+        public async Task<T> Create(T entity)
         {
-            throw new NotImplementedException();
+            var result = _context.Add(entity);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public T Get(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = _context.Find<T>(id);
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<T> Get(int id)
+        {
+            return await _context.FindAsync<T>(id);
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>();
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using DTOs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -18,21 +19,23 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public void Create(StudyingMaterialsDto entity)
+        public async Task<int> Create(StudyingMaterialsDto entity)
         {
             var material = _mapper.Map<StudyingMaterials>(entity);
 
-            _repository.Create(material);
+            var result = await _repository.Create(material);
+
+            return result.Id;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
         }
 
-        public StudyingMaterialsDto Get(int id)
+        public async Task<StudyingMaterialsDto> Get(int id)
         {
-            var material = _repository.Get(id);
+            var material = await _repository.Get(id);
 
             return _mapper.Map<StudyingMaterialsDto>(material);
         }
@@ -44,11 +47,11 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<StudyingMaterialsDto>>(materials);
         }
 
-        public void Update(StudyingMaterialsDto entity)
+        public async Task Update(StudyingMaterialsDto entity)
         {
             var material = _mapper.Map<StudyingMaterials>(entity);
 
-            _repository.Update(material);
+            await _repository.Update(material);
         }
     }
 }

@@ -5,6 +5,7 @@ using DAL.Interfaces;
 using DTOs;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -19,21 +20,23 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public void Create(ThemeDto entity)
+        public async Task<int> Create(ThemeDto entity)
         {
             var theme = _mapper.Map<Theme>(entity);
 
-            _repository.Create(theme);
+            var result = await _repository.Create(theme);
+
+            return result.Id;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.DeleteThemeWithData(id);
+            await _repository.DeleteThemeWithData(id);
         }
 
-        public ThemeDto Get(int id)
+        public async Task<ThemeDto> Get(int id)
         {
-            var theme = _repository.Get(id);
+            var theme = await _repository.Get(id);
 
             return _mapper.Map<ThemeDto>(theme);
         }
@@ -45,11 +48,11 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<ThemeDto>>(themes);
         }
 
-        public void Update(ThemeDto entity)
+        public async Task Update(ThemeDto entity)
         {
             var theme = _mapper.Map<Theme>(entity);
 
-            _repository.Update(theme);
+            await _repository.Update(theme);
         }
 
         public IEnumerable<ThemeDto> SearchThemes(string themeName)

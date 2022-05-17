@@ -1,35 +1,12 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace DAL.Repositories
 {
-    public class StatisticRepository : IStatisticRepository
+    public class StatisticRepository : BaseRepository<UserStatistics>, IStatisticRepository
     {
-        public void Create(UserStatistics entity)
+        public StatisticRepository(Context context) : base(context)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UserStatistics Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<UserStatistics> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(UserStatistics entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

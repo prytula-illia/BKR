@@ -1,9 +1,10 @@
 ﻿using DAL.Entities;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
     public interface ICourseRepository : IRepository<Course>
     {
-        public void DeleteCourseWithData(int id);
+        public Task DeleteCourseWithData(int id);
     }
 }

@@ -5,6 +5,7 @@ using DAL.Interfaces;
 using DTOs;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -26,21 +27,23 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public void Create(UserStatisticsDto entity)
+        public async Task<int> Create(UserStatisticsDto entity)
         {
             var statistic = _mapper.Map<UserStatistics>(entity);
 
-            _statisticRepository.Create(statistic);
+            var result = await _statisticRepository.Create(statistic);
+
+            return result.Id;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _statisticRepository.Delete(id);
+            await _statisticRepository.Delete(id);
         }
 
-        public UserStatisticsDto Get(int id)
+        public async Task<UserStatisticsDto> Get(int id)
         {
-            var statistic = _statisticRepository.Get(id);
+            var statistic = await _statisticRepository.Get(id);
 
             return _mapper.Map<UserStatisticsDto>(statistic);
         }
@@ -52,17 +55,17 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<UserStatisticsDto>>(statistic);
         }
 
-        public void Update(UserStatisticsDto entity)
+        public async Task Update(UserStatisticsDto entity)
         {
             var statistic = _mapper.Map<UserStatistics>(entity);
 
-            _statisticRepository.Update(statistic);
+            await _statisticRepository.Update(statistic);
         }
 
-        public float GetTasksFinishedRateForTheme(int statisticId, int themeId)
+        public async Task<float> GetTasksFinishedRateForTheme(int statisticId, int themeId)
         {
-            var statistic = Get(statisticId);
-            var theme = _themeRepository.Get(themeId);
+            var statistic = await Get(statisticId);
+            var theme = await _themeRepository.Get(themeId);
 
             var allCount = theme.Tasks.Count();
             var finishedCount = statistic.FinishedTasks.Count();
@@ -70,10 +73,10 @@ namespace BLL.Services
             return (float)finishedCount / allCount;
         }
 
-        public float GetThemesFinishedRateForCourse(int statisticId, int courseId)
+        public async Task<float> GetThemesFinishedRateForCourse(int statisticId, int courseId)
         {
-            var statistic = Get(statisticId);
-            var course = _courseRepository.Get(courseId);
+            var statistic = await Get(statisticId);
+            var course = await _courseRepository.Get(courseId);
 
             var allCount = course.Themes.Count();
             var finishedCount = statistic.FinishedThemes.Count();

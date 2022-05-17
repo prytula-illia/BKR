@@ -15,6 +15,7 @@ namespace WebApi.Mapper
             CreateMap<StudyingMaterials, StudyingMaterialsDto>().ReverseMap();
             CreateMap<Theme, ThemeDto>().ReverseMap();
             CreateMap<UserStatistics, UserStatisticsDto>().ReverseMap();
+            CreateMap<Comment, CommentDto>().ReverseMap();
         }
     }
 }

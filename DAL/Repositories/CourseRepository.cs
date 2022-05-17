@@ -1,38 +1,17 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository : BaseRepository<Course>, ICourseRepository
     {
-        public void Create(Course entity)
+        public CourseRepository(Context context) : base(context)
         {
-            throw new NotImplementedException();
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteCourseWithData(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Course Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Course> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Course entity)
+        public Task DeleteCourseWithData(int id)
         {
             throw new NotImplementedException();
         }

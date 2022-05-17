@@ -1,9 +1,10 @@
 ﻿using DAL.Entities;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
     public interface IThemeRepository : IRepository<Theme>
     {
-        public void DeleteThemeWithData(int id);
+        public Task DeleteThemeWithData(int id);
     }
 }

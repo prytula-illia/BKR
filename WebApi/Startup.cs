@@ -1,6 +1,7 @@
 using AutoMapper;
 using BLL.Interfaces;
 using BLL.Services;
+using DAL;
 using DAL.Interfaces;
 using DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebApi.Mapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi
 {
@@ -25,11 +27,19 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Courses
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICourseService, CourseService>();
+
+            // StudyingMaterials
             services.AddScoped<IStudyingMaterialsRepository, StudyingMaterialsRepository>();
             services.AddScoped<IStudyingMaterialsService, StudyingMaterialsService>();
 
             var mpcfg = new MapperConfiguration(c => c.AddProfile(new AutomapperProfile()));
             services.AddSingleton(mpcfg.CreateMapper());
+
+            services.AddDbContext<Context>(item => 
+                item.UseSqlServer(Configuration.GetConnectionString("dbconnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
