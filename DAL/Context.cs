@@ -1,10 +1,12 @@
-﻿using DAL.Entities;
+﻿using DAL.Authentication;
+using DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace DAL
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<ApplicationUser>
     {
         public Context()
         {
@@ -23,6 +25,7 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<PracticalTask>()
                 .HasMany(t => t.Answers)
                 .WithMany(a => a.Tasks);

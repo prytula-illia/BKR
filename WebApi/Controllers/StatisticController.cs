@@ -1,5 +1,7 @@
 ﻿using BLL.Interfaces;
 using DTOs;
+using DTOs.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = UserRoles.ExpiriencedUser)]
+    [Authorize(Roles = UserRoles.User)]
     [ApiController]
     public class StatisticController : ControllerBase
     {
@@ -44,6 +49,7 @@ namespace WebApi.Controllers
             return await _service.Create(dto);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut]
         [Route("api/statistic/")]
         public async Task Update([FromBody] UserStatisticsDto dto)
@@ -52,6 +58,7 @@ namespace WebApi.Controllers
             await _service.Update(dto);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete]
         [Route("api/statistic/{id}")]
         public async Task Delete(int id)

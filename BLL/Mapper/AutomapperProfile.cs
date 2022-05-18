@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using DAL.Authentication;
 using DAL.Entities;
 using DTOs;
+using DTOs.Authentication;
 
 namespace WebApi.Mapper
 {
@@ -16,6 +18,8 @@ namespace WebApi.Mapper
             CreateMap<Theme, ThemeDto>().ReverseMap();
             CreateMap<UserStatistics, UserStatisticsDto>().ReverseMap();
             CreateMap<Comment, CommentDto>().ReverseMap();
+            CreateMap<LoginModel, LoginModelDto>().ReverseMap();
+            CreateMap<RegisterModel, RegisterModelDto>().ReverseMap();
         }
     }
 }

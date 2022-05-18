@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{BF2F8765-6A9F-4BCD-B19F-EE19A8B34CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{07CD8F66-0B0E-4D25-9EE0-F27228D1F304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOs", "DTOs\DTOs.csproj", "{07CD8F66-0B0E-4D25-9EE0-F27228D1F304}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,7 @@
 ﻿using BLL.Interfaces;
 using DTOs;
+using DTOs.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)] 
+    [Authorize(Roles = UserRoles.ExpiriencedUser)]
+    [Authorize(Roles = UserRoles.User)]
     [ApiController]
     public class CourseController : ControllerBase
     {
@@ -36,6 +41,7 @@ namespace WebApi.Controllers
             return await _service.Get(id);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [Route("api/course/")]
         public async Task<int> Create([FromBody] CourseDto dto)
@@ -44,6 +50,7 @@ namespace WebApi.Controllers
             return await _service.Create(dto);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut]
         [Route("api/course/")]
         public async Task Update([FromBody] CourseDto dto)
@@ -52,6 +59,7 @@ namespace WebApi.Controllers
             await _service.Update(dto);
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete]
         [Route("api/course/{id}")]
         public async Task Delete(int id)
