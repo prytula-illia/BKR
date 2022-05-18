@@ -35,6 +35,18 @@ namespace WebApi
             services.AddScoped<IStudyingMaterialsRepository, StudyingMaterialsRepository>();
             services.AddScoped<IStudyingMaterialsService, StudyingMaterialsService>();
 
+            // PracticalTask
+            services.AddScoped<IPracticalTaskRepository, PracticalTaskRepository>();
+            services.AddScoped<IPracticalTaskService, PracticalTaskService>();
+
+            // Statistic
+            services.AddScoped<IStatisticRepository, StatisticRepository>();
+            services.AddScoped<IStatisticService, StatisticService>();
+
+            // Theme
+            services.AddScoped<IThemeRepository, ThemeRepository>();
+            services.AddScoped<IThemeService, ThemeService>();
+
             var mpcfg = new MapperConfiguration(c => c.AddProfile(new AutomapperProfile()));
             services.AddSingleton(mpcfg.CreateMapper());
 

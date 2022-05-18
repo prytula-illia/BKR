@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/studyingMaterial/all")]
+        [Route("api/studyingMaterial/")]
         public IEnumerable<StudyingMaterialsDto> GetAll()
         {
             _logger.LogInformation("Getting all studying materials: " + DateTime.Now);
@@ -37,7 +37,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("api/studyingMaterial/create")]
+        [Route("api/studyingMaterial/")]
         public async Task<int> Create([FromBody] StudyingMaterialsDto dto)
         {
             _logger.LogInformation($"Create studying material." + DateTime.Now);
@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("api/studyingMaterial/update")]
+        [Route("api/studyingMaterial/")]
         public async Task Update([FromBody] StudyingMaterialsDto dto)
         {
             _logger.LogInformation($"Update studying material." + DateTime.Now);
@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("api/studyingMaterial/delete/{id}")]
+        [Route("api/studyingMaterial/{id}")]
         public async Task Delete(int id)
         {
             _logger.LogInformation($"Delete studying material with id {id}." + DateTime.Now);

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -22,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/course/all")]
+        [Route("api/course/")]
         public IEnumerable<CourseDto> GetAll()
         {
             _logger.LogInformation("Getting all courses: " + DateTime.Now);
@@ -38,7 +37,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("api/course/create")]
+        [Route("api/course/")]
         public async Task<int> Create([FromBody] CourseDto dto)
         {
             _logger.LogInformation($"Create course." + DateTime.Now);
@@ -46,7 +45,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("api/course/update")]
+        [Route("api/course/")]
         public async Task Update([FromBody] CourseDto dto)
         {
             _logger.LogInformation($"Update course." + DateTime.Now);
@@ -54,7 +53,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("api/course/delete/{id}")]
+        [Route("api/course/{id}")]
         public async Task Delete(int id)
         {
             _logger.LogInformation($"Delete course with id {id}." + DateTime.Now);
