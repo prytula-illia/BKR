@@ -59,6 +59,8 @@ namespace WebApi
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();
 
+            services.AddCors();
+
             // Adding Authentication  
             services.AddAuthentication(options =>
             {
@@ -104,6 +106,11 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
+
+            app.UseCors(opt => 
+                opt.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

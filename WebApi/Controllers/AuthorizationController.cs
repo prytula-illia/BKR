@@ -28,9 +28,9 @@ namespace WebApi.Controllers
 
                 return Ok(result);
             }
-            catch
+            catch(Exception ex)
             {
-                return Unauthorized();
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 

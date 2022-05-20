@@ -8,5 +8,6 @@ namespace DTOs
         public string Question { get; set; }
         public QuestionTypeDto Type { get; set; }
         public List<AnswerDto> Answers { get; set; }
+        public int ThemeId { get; set; }
     }
 }

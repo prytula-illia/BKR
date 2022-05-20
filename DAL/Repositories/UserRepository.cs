@@ -60,7 +60,7 @@ namespace DAL.Repositories
                     expiration = token.ValidTo
                 };
             }
-            throw new Exception("User is not authorized");
+            throw new Exception("User is not registered");
         }
 
         public async Task Register(RegisterModel model)
@@ -87,7 +87,7 @@ namespace DAL.Repositories
             if (userExists != null)
                 throw new Exception("User already exists!");
 
-            ApplicationUser user = new ApplicationUser()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
