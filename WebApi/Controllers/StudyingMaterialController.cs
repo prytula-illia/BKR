@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
-    [Authorize(Roles = UserRoles.ExpiriencedUser)]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     [ApiController]
     public class StudyingMaterialController : ControllerBase
     {
@@ -41,8 +39,7 @@ namespace WebApi.Controllers
             return await _service.Get(id);
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
-        [Authorize(Roles = UserRoles.ExpiriencedUser)]
+        [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.ExpiriencedUser)]
         [HttpPost]
         [Route("api/studyingMaterial/")]
         public async Task<int> Create([FromBody] StudyingMaterialsDto dto)

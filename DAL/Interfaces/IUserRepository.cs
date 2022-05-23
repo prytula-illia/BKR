@@ -7,5 +7,6 @@ namespace DAL.Interfaces
     {
         public Task<object> Login(LoginModel loginModel);
         public Task Register(RegisterModel registerModel);
+        public Task RegisterAdmin(RegisterModel registerModel);
     }
 }

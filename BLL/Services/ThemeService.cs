@@ -11,12 +11,14 @@ namespace BLL.Services
 {
     public class ThemeService : IThemeService
     {
-        private readonly IThemeRepository _repository;
+        private readonly IThemeRepository _themeRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public ThemeService(IThemeRepository repository, IMapper mapper)
+        public ThemeService(IThemeRepository themeRepository, ICourseRepository courseRepository, IMapper mapper)
         {
-            _repository = repository;
+            _themeRepository = themeRepository;
+            _courseRepository = courseRepository;
             _mapper = mapper;
         }
 
@@ -24,26 +26,26 @@ namespace BLL.Services
         {
             var theme = _mapper.Map<Theme>(entity);
 
-            var result = await _repository.Create(theme);
+            var result = await _themeRepository.Create(theme);
 
             return result.Id;
         }
 
         public async Task Delete(int id)
         {
-            await _repository.DeleteThemeWithData(id);
+            await _themeRepository.DeleteThemeWithData(id);
         }
 
         public async Task<ThemeDto> Get(int id)
         {
-            var theme = await _repository.Get(id);
+            var theme = await _themeRepository.Get(id);
 
             return _mapper.Map<ThemeDto>(theme);
         }
 
         public IEnumerable<ThemeDto> GetAll()
         {
-            var themes = _repository.GetAll();
+            var themes = _themeRepository.GetAll();
 
             return _mapper.Map<IEnumerable<ThemeDto>>(themes);
         }
@@ -52,12 +54,29 @@ namespace BLL.Services
         {
             var theme = _mapper.Map<Theme>(entity);
 
-            await _repository.Update(theme);
+            await _themeRepository.Update(theme);
         }
 
         public IEnumerable<ThemeDto> SearchThemes(string themeName)
         {
             return GetAll().Where(x => x.Title.Contains(themeName));
+        }
+
+        public async Task<IEnumerable<ThemeDto>> GetCourseThemes(int id)
+        {
+            var course = await _courseRepository.Get(id);
+
+            return _mapper.Map<IEnumerable<ThemeDto>>(course.Themes);
+        }
+
+        public async Task<int> CreateThemeForCourse(ThemeDto dto, int courseId)
+        {
+            var course = await _courseRepository.Get(courseId);
+            var theme = _mapper.Map<Theme>(dto);
+            theme.Course = course;
+
+            var result = await _themeRepository.Create(theme);
+            return result.Id;
         }
     }
 }

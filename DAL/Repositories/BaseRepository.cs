@@ -7,7 +7,7 @@ namespace DAL.Repositories
     public class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        private readonly Context _context;
+        protected readonly Context _context;
 
         public BaseRepository(Context context)
         {

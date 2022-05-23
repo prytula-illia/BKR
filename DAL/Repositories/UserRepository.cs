@@ -36,7 +36,7 @@ namespace DAL.Repositories
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, System.Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
                 foreach (var userRole in userRoles)
@@ -102,6 +102,8 @@ namespace DAL.Repositories
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.ExpiriencedUser))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.ExpiriencedUser));
 
             if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
             {

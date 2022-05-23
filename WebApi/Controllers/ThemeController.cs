@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
-    [Authorize(Roles = UserRoles.ExpiriencedUser)]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     [ApiController]
     public class ThemeController : ControllerBase
     {
@@ -25,30 +23,22 @@ namespace WebApi.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        [Route("api/theme/")]
-        public IEnumerable<ThemeDto> GetAll()
-        {
-            _logger.LogInformation("Getting all themes: " + DateTime.Now);
-            return _service.GetAll();
-        }
 
         [HttpGet]
-        [Route("api/theme/{id}")]
-        public async Task<ThemeDto> Get(int id)
+        [Route("api/course/{id}/theme/")]
+        public async Task<IEnumerable<ThemeDto>> GetCourseThemes(int id)
         {
-            _logger.LogInformation($"Get theme with id {id}." + DateTime.Now);
-            return await _service.Get(id);
+            _logger.LogInformation($"Getting all themes from course wiht id {id}." + DateTime.Now);
+            return await _service.GetCourseThemes(id);
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
-        [Authorize(Roles = UserRoles.ExpiriencedUser)]
+        [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.ExpiriencedUser)]
         [HttpPost]
-        [Route("api/theme/")]
-        public async Task<int> Create([FromBody] ThemeDto dto)
+        [Route("api/course/{id}/theme/")]
+        public async Task<int> Create([FromBody] ThemeDto dto, [FromQuery] int courseId)
         {
             _logger.LogInformation($"Create theme." + DateTime.Now);
-            return await _service.Create(dto);
+            return await _service.CreateThemeForCourse(dto, courseId);
         }
 
         [Authorize(Roles = UserRoles.Admin)]

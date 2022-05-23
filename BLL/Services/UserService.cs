@@ -33,7 +33,7 @@ namespace BLL.Services
         public async Task RegisterAdmin(RegisterModelDto model)
         {
             var mapped = _mapper.Map<RegisterModel>(model);
-            await _repository.Register(mapped);
+            await _repository.RegisterAdmin(mapped);
         }
     }
 }

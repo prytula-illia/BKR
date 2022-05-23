@@ -11,9 +11,9 @@ namespace DAL.Repositories
         {
         }
 
-        public Task DeleteCourseWithData(int id)
-        {
-            throw new NotImplementedException();
+        public async Task DeleteCourseWithData(int id)
+        {  
+            await base.Delete(id);
         }
     }
 }

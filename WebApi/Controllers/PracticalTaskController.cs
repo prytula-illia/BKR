@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
-    [Authorize(Roles = UserRoles.ExpiriencedUser)]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     [ApiController]
     public class PracticalTaskController : ControllerBase
     {

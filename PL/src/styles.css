@@ -2,9 +2,27 @@ body, html {
     height: 100%;
   }
   
+  footer {
+    background-color: rgb(61,163,167);
+  }
+
+  .mybutton {
+    width: 200px !important;
+    background-color: rgb(19,141,146) !important;
+  }
+
+  .underfooter {
+    background-color: rgb(19,141,146);
+  }
+  
+  .formbg {
+    background-color: rgb(241,241,241);
+  }
+
   .bg {
+    
     /* The image used */
-    background-color: rgb(236, 236, 236);
+    background-color: rgb(235,235,235);
 
     /* Full height */
     height: 100%;
@@ -13,4 +31,11 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .working-area {
+    background-color: rgb(241,241,241);
+    width: 60vw;
+    min-height: 55vh;
+    border-radius: 15px;
   }
