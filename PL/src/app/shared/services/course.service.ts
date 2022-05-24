@@ -20,20 +20,16 @@ export class CourseService {
       }); 
   }
 
+  createCourse(course : Course) {
+    return this.http.post(this.baseUrl + "/", course, { headers: this.generateTokenHeaders() });
+  }
+
   updateCourse(course : Course) {
-    var result = this.http.put(this.baseUrl + "/", course, { headers: this.generateTokenHeaders() });
-    result.subscribe({
-      error: (err) => {console.log(err);}
-    });
-    return result;
+    return this.http.put(this.baseUrl + "/", course, { headers: this.generateTokenHeaders() });
   }
 
   deleteCourseById(id : number) {
-    var result = this.http.delete(this.baseUrl + `/${id}`, { headers: this.generateTokenHeaders() });
-    result.subscribe({
-      error: (err) => {console.log(err);}
-    }); 
-    return result;
+   return this.http.delete(this.baseUrl + `/${id}`, { headers: this.generateTokenHeaders() });
   }
 
   generateTokenHeaders() : HttpHeaders {

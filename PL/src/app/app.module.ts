@@ -13,6 +13,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
  import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ThemeComponent } from './theme/theme.component';
+import { RegisterComponent } from './register/register.component';
+import { ThemeCreateComponent } from './theme/theme-create/theme-create.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { ThemeComponent } from './theme/theme.component';
     CourseComponent,
     MainpageComponent,
     ThemeComponent,
+    RegisterComponent,
+    ThemeCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,8 +38,10 @@ import { ThemeComponent } from './theme/theme.component';
     RouterModule.forRoot([
       {path: 'main-page', component: MainpageComponent},
       {path: 'login-page', component: LoginComponent},
+      {path: 'register-page', component: RegisterComponent},
       {path: 'course-page', component: CourseComponent},
       {path: 'themes-page', component: ThemeComponent},
+      {path: 'theme-create-page', component: ThemeCreateComponent},
       {path: '', redirectTo: '/login-page', pathMatch: 'full'},
     ]),
   ],

@@ -16,12 +16,12 @@ namespace DAL
         { 
         }
 
-        DbSet<Answer> Answers { get; set; }
-        DbSet<Course> Courses { get; set; }
-        DbSet<PracticalTask> PracticalTasks { get; set; }
-        DbSet<StudyingMaterials> StudyingMaterials { get; set; }
-        DbSet<Theme> Themes { get; set; }
-        DbSet<UserStatistics> UserStatistics { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<PracticalTask> PracticalTasks { get; set; }
+        public DbSet<StudyingMaterials> StudyingMaterials { get; set; }
+        public DbSet<Theme> Themes { get; set; }
+        public DbSet<UserStatistics> UserStatistics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,12 +10,12 @@ namespace BLL.Services
 {
     public class PracticalTaskService : IPracticalTaskService
     {
-        private readonly IPracticalTaskRepository _repository;
+        private readonly IPracticalTaskRepository _practicalTaskRepository;
         private readonly IMapper _mapper;
 
         public PracticalTaskService(IPracticalTaskRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _practicalTaskRepository = repository;
             _mapper = mapper;
         }
 
@@ -23,26 +23,26 @@ namespace BLL.Services
         {
             var task = _mapper.Map<PracticalTask>(entity);
 
-            var result = await _repository.Create(task);
+            var result = await _practicalTaskRepository.Create(task);
 
             return result.Id;
         }
 
         public async Task Delete(int id)
         {
-            await _repository.Delete(id);
+            await _practicalTaskRepository.Delete(id);
         }
 
         public async Task<PracticalTaskDto> Get(int id)
         {
-            var task = await _repository.Get(id);
+            var task = await _practicalTaskRepository.Get(id);
 
             return _mapper.Map<PracticalTaskDto>(task);
         }
 
         public IEnumerable<PracticalTaskDto> GetAll()
         {
-            var tasks = _repository.GetAll();
+            var tasks = _practicalTaskRepository.GetAll();
 
             return _mapper.Map<IEnumerable<PracticalTaskDto>>(tasks);
         }
@@ -51,7 +51,7 @@ namespace BLL.Services
         {
             var task = _mapper.Map<PracticalTask>(entity);
 
-            await _repository.Update(task);
+            await _practicalTaskRepository.Update(task);
         }
     }
 }

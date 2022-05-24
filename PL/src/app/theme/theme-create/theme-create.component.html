@@ -1,0 +1,218 @@
+<div class="container" style="width: 50vw;">
+    <form class="form-control form-control-lg" novalidate #form="ngForm" (submit)="createTheme(form)">
+        <h3 class="text-center mt-3">Create new theme</h3>
+        <div class="form-group mt-3">
+            <label>Title: </label>
+            <input class="form-control form-control-sm" name="name" placeholder="title" #title="ngModel" [(ngModel)]="service.formData.title" required>
+        </div>
+        <div class="form-group mt-3">
+            <label>Description: </label>
+            <textarea class="form-control form-control-sm" style="min-height: 200px;"name="description" placeholder="description" 
+                #description="ngModel" [(ngModel)]="service.formData.description" required></textarea>
+        </div>
+
+        <div class="container" *ngFor="let sm of service.formData.studyingMaterials">
+            <div class="form-group mt-3 text-center">
+                <p>Material with title '{{sm.title}}'</p>
+                <button class="btn btn-danger btn-sm btn-block mb-3 mx-3" type="button" (click)="removeMaterial(sm)">Remove material</button>
+            </div> 
+        </div>
+
+        <div class="container" *ngFor="let t of service.formData.tasks">
+            <div class="form-group mt-3 text-center">
+                <p>Task with question '{{t.question}}'</p>
+                <button class="btn btn-danger btn-sm btn-block mb-3 mx-3" type="button" (click)="removeTask(t)">Remove task</button>
+            </div> 
+        </div>
+
+        <div class="form-group mt-3 text-center">
+            <button class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" type="button" (click)="addMaterial(createStudyingMaterial)">Add studying material</button>
+            <button class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton"  type="button" (click)="selectTaskType(chooseTaskType)">Add practical task</button>
+        </div>
+        <div class="form-group mt-3 text-center">
+            <button class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" type="Submit" [disabled]="form.invalid">Create theme</button>
+        </div>
+    </form>
+</div>
+
+
+<ng-template #chooseTaskType>
+    <div class="container my-3 text-center">
+        <h4 class="text-center" id="modal-basic-title">Chose the type of task:</h4>
+    </div>
+    <div class="container mb-3 text-center">
+        <div class="form-group mt-3">
+            <button type="button" class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" (click)="addTask(closeQuestion)">Closed question</button>
+        </div>
+        <div class="form-group mt-3">
+            <button type="button" class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" (click)="addTask(multiChoiseQuestion)">Multichoise question</button>
+        </div>
+        <div class="form-group mt-3">
+            <button type="button" class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" (click)="addTask(gapQuestion)">Filling gaps</button>
+        </div>
+        <div class="form-group mt-3">
+            <button type="button" class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" (click)="addTask(sentenceQuestion)">Right order task</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #closeQuestion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create closed question</h4>
+    </div>
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label class="m-2">Enter task question:</label>
+            <textarea class="form-control form-control-sm" style="min-height: 200px;"name="question" placeholder="question" #question required></textarea>
+        </div>
+        <div class="container mt-3 text-center">
+            <label class="text-center m-2">Answer:</label>
+            <div class="form-check form-check-inline mx-2">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" #yesansw>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+            </div>
+            <div class="form-check form-check-inline mx-2">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" #noansw>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-success" [disabled]="form.invalid" (click)="modal.close({
+            id: 0,
+            question: question.value,
+            type: 0,
+            answers: [ {id: 0, content: 'yes', isCorrect: yesansw.checked }, {id: 0, content: 'no', isCorrect: noansw.checked } ]
+        })">Add task</button>
+    </div>
+</ng-template>
+
+
+<ng-template #multiChoiseQuestion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create multi choise question</h4>
+    </div>
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label class="m-2">Enter task question:</label>
+            <textarea class="form-control form-control-sm" style="min-height: 200px;"name="question" placeholder="question" #question></textarea>
+        </div>
+        <p class="text-center mt-3">Answers:</p>
+        <div  class="my-3" *ngFor='let answ of answers'>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control form-control-sm" [(ngModel)]="answ.content" minlength="1">
+                </div>
+                <div class="col form-check form-check-inlinel">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [(ngModel)]="answ.isCorrect"
+                        [ngModelOptions]="{standalone: true}"/>
+                        <label class="form-check-label" for="inlineCheckbox1">Is correct</label>
+                </div>
+            </div>
+        </div>
+        <div class="container col text-center">
+            <button type="button" class="btn btn-primary btn-sm btn-block m-3" (click)="addAnswer()">Add answer</button>
+            <button type="button" class="btn btn-danger btn-sm btn-block m-3" (click)="removeAnswer()">Remove answer</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="modal.close({
+            id: 0,
+            question: question.value,
+            type: 1,
+            answers: answers
+        })">Add task</button>
+    </div>
+</ng-template>
+
+<ng-template #gapQuestion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create gap question</h4>
+    </div>
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label class="m-2">Enter strat of the question:</label>
+            <input class="form-control form-control-sm" name="question1" #question1>
+        </div>
+        <div class="form-group mt-3">
+            <label class="m-2">Enter gap answer:</label>
+            <input class="form-control form-control-sm" name="answer" #answer>
+        </div>
+        <div class="form-group mt-3">
+            <label class="m-2">Enter end of the question:</label>
+            <input class="form-control form-control-sm" name="question2" #question2>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="modal.close({
+            id: 0,
+            question: concatQuestion(question1.value, question2.value),
+            type: 2,
+            answers: [ {id: 0, content: answer.value, isCorrect: true } ]
+        })">Add task</button>
+    </div>
+</ng-template>
+
+
+<ng-template #sentenceQuestion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create sentence question</h4>
+    </div>
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label class="m-2">Enter strat of the question:</label>
+            <input class="form-control form-control-sm" name="questionStart" #questionStart>
+        </div>
+        <div  class="my-3" *ngFor='let answ of answers; let i=index;'>
+            <div class="form-group mt-3">
+                <label class="m-2">Enter gap answer:</label>
+                <input class="form-control form-control-sm" [ngModel]="answ.content">
+            </div>
+            <div class="form-group mt-3">
+                <label class="m-2">Enter question continuation:</label>
+                <input class="form-control form-control-sm" [ngModel]="questionParasdfts[i]"> // does not bind ???
+            </div>
+        </div>
+        <div class="container col text-center">
+            <button type="button" class="btn btn-primary btn-sm btn-block m-3" (click)="addAnswer()">Add answer</button>
+            <button type="button" class="btn btn-danger btn-sm btn-block m-3" (click)="removeAnswer()">Remove answer</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="modal.close({
+            id: 0,
+            question: concatQuestions(questionStart.value, questionParts),
+            type: 2,
+            answers: answers
+        })">Add task</button>
+    </div>
+</ng-template>
+
+<ng-template #createStudyingMaterial let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create studying material for theme</h4>
+    </div>
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label>Title: </label>
+            <input class="form-control form-control-sm" name="name" placeholder="title" #title>
+        </div>
+        <div class="form-group mt-3">
+            <label>Content: </label>
+            <textarea class="form-control form-control-sm" style="min-height: 200px;"name="content" placeholder="content" #content></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="modal.close
+        ({
+            id: 0,
+            title: title.value,
+            content: description.value
+        })">Create</button>
+    </div>
+</ng-template>

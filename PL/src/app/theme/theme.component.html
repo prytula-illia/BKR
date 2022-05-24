@@ -1,6 +1,7 @@
 <h1 class="mb-5" style="text-align: center;">Themes</h1>
 
 <div class="container p-3 working-area">
+    <button class="btn btn-success btn-sm btn-block my-3 mx-3 float-end" (click)="createTheme()">Create Theme</button>
    <div class="container p-5" *ngFor="let t of service.themes">
     <div class="my-2">
         <h3>{{t.title}}</h3>
@@ -31,7 +32,7 @@
                 <button type="button" class="btn btn-success" (click)="modal.close
                 ({
                     id: t.id,
-                    name: title.value,
+                    title: title.value,
                     description: description.value,
                     tasks : t.tasks,
                     studyingMaterials : t.studyingMaterials

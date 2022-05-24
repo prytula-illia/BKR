@@ -7,4 +7,12 @@ export class Theme {
     description : string;
     tasks : PracticalTask[];
     studyingMaterials : StudyingMaterial[];
+
+    constructor() {
+        this.id = 0;
+        this.title = "";
+        this.description = "";
+        this.tasks = [];
+        this.studyingMaterials = [];
+    }
 }

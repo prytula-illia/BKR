@@ -10,6 +10,6 @@ export class Course {
         this.id = 0;
         this.name = "";
         this.description = "";
-        this.themes = null;
+        this.themes = [];
     }
 }

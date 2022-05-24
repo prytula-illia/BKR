@@ -18,11 +18,26 @@ export class CourseComponent implements OnInit {
     this.service.getAllCourses();
   }
 
+  createCourse(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
+      this.service.createCourse(result).subscribe( 
+        () =>{
+          this.ngOnInit();
+        },
+        (err) => {
+          console.log(err);
+        });
+    });
+  }
+
   updateCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
       this.service.updateCourse(result).subscribe( 
         () =>{
           this.ngOnInit();
+        },
+        (err) => {
+          console.log(err);
         });
     });
   }
@@ -32,11 +47,14 @@ export class CourseComponent implements OnInit {
       this.service.deleteCourseById(result).subscribe( 
         () =>{
           this.ngOnInit();
+        },
+        (err) => {
+          console.log(err);
         });
     });
   }
   
   redirectToThemes(id : number) {
-    this.router.navigate(['/themes-page']);
+    this.router.navigate(['/themes-page'], { queryParams: { id: id } });
   }
 }

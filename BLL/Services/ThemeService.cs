@@ -13,12 +13,20 @@ namespace BLL.Services
     {
         private readonly IThemeRepository _themeRepository;
         private readonly ICourseRepository _courseRepository;
+        private readonly IPracticalTaskRepository _practicalTaskRepository;
+        private readonly IStudyingMaterialsRepository _studyingMaterialsRepository;
         private readonly IMapper _mapper;
 
-        public ThemeService(IThemeRepository themeRepository, ICourseRepository courseRepository, IMapper mapper)
+        public ThemeService(IThemeRepository themeRepository,
+                            ICourseRepository courseRepository, 
+                            IPracticalTaskRepository practicalTaskRepository,
+                            IStudyingMaterialsRepository studyingMaterialsRepository,
+                            IMapper mapper)
         {
             _themeRepository = themeRepository;
             _courseRepository = courseRepository;
+            _practicalTaskRepository = practicalTaskRepository;
+            _studyingMaterialsRepository = studyingMaterialsRepository;
             _mapper = mapper;
         }
 
@@ -33,19 +41,31 @@ namespace BLL.Services
 
         public async Task Delete(int id)
         {
-            await _themeRepository.DeleteThemeWithData(id);
+            var theme = await Get(id);
+
+            foreach(var t in theme.Tasks)
+            {
+                await _practicalTaskRepository.Delete(t.Id);
+            }
+
+            foreach(var sm in theme.StudyingMaterials)
+            {
+                await _studyingMaterialsRepository.Delete(sm.Id);
+            }
+
+            await _themeRepository.Delete(id);
         }
 
         public async Task<ThemeDto> Get(int id)
         {
-            var theme = await _themeRepository.Get(id);
+            var theme = await _themeRepository.GetWithNestedData(id);
 
             return _mapper.Map<ThemeDto>(theme);
         }
 
         public IEnumerable<ThemeDto> GetAll()
         {
-            var themes = _themeRepository.GetAll();
+            var themes = _themeRepository.GetAllThemesWithNestedData();
 
             return _mapper.Map<IEnumerable<ThemeDto>>(themes);
         }
@@ -64,7 +84,7 @@ namespace BLL.Services
 
         public async Task<IEnumerable<ThemeDto>> GetCourseThemes(int id)
         {
-            var course = await _courseRepository.Get(id);
+            var course = await _courseRepository.GetCourseWithAllNestedData(id);
 
             return _mapper.Map<IEnumerable<ThemeDto>>(course.Themes);
         }

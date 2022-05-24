@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Theme } from '../shared/models/theme.model';
 import { ThemeService } from '../shared/services/theme.service';
@@ -11,10 +12,18 @@ import { ThemeService } from '../shared/services/theme.service';
 })
 export class ThemeComponent implements OnInit {
 
-  constructor(public service : ThemeService, private modalService: NgbModal) { }
+  constructor(public service : ThemeService, private modalService: NgbModal, private route: ActivatedRoute, private router: Router) { }
   
+  private id : number;
   ngOnInit(): void {
-    this.service.getAllThemes();
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
+    this.service.getAllThemes(this.id);
+  }
+
+  createTheme() {
+    this.router.navigate(['/theme-create-page'], { queryParams: { id: this.id } });
   }
 
   updateTheme(content:any) {
@@ -22,8 +31,12 @@ export class ThemeComponent implements OnInit {
       this.service.updateTheme(result).subscribe( 
         () =>{
           this.ngOnInit();
+        },
+        (err) => {
+          console.log(err);
         });
-    });
+    },
+    (error) => console.log(error));
   }
   
   deleteTheme(content:any) {
@@ -31,7 +44,11 @@ export class ThemeComponent implements OnInit {
       this.service.deleteThemeById(result).subscribe( 
         () =>{
           this.ngOnInit();
+        },
+        (err) => {
+          console.log(err);
         });
-    });
+    },
+    (error) => console.log(error));
   } 
 }

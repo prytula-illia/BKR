@@ -52,9 +52,14 @@ namespace WebApi
             services.AddScoped<IThemeRepository, ThemeRepository>();
             services.AddScoped<IThemeService, ThemeService>();
 
+            // Comments
+            services.AddScoped<ICommentsRepository, CommentRepository>();
+            services.AddScoped<ICommentService, CommentService>();
+
             // User
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();

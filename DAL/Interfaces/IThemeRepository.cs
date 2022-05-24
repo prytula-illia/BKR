@@ -6,6 +6,7 @@ namespace DAL.Interfaces
 {
     public interface IThemeRepository : IRepository<Theme>
     {
-        public Task DeleteThemeWithData(int id);
+        public IEnumerable<Theme> GetAllThemesWithNestedData();
+        public Task<Theme> GetWithNestedData(int id);
     }
 }

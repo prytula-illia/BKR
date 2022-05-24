@@ -10,12 +10,14 @@ namespace BLL.Services
 {
     public class CourseService : ICourseService
     {
-        private readonly ICourseRepository _repository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly IThemeRepository _themeRepository;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository repository, IMapper mapper)
+        public CourseService(ICourseRepository repository, IThemeRepository themeRepository, IMapper mapper)
         {
-            _repository = repository;
+            _courseRepository = repository;
+            _themeRepository = themeRepository;
             _mapper = mapper;
         }
 
@@ -23,26 +25,31 @@ namespace BLL.Services
         {
             var course = _mapper.Map<Course>(entity);
 
-            var result = await _repository.Create(course);
+            var result = await _courseRepository.Create(course);
 
             return result.Id;
         }
 
         public async Task Delete(int id)
         {
-            await _repository.DeleteCourseWithData(id);
+            var course = await Get(id);
+            foreach(var t in course.Themes)
+            {
+                await _themeRepository.Delete(t.Id);
+            }
+            await _courseRepository.Delete(id);
         }
 
         public async Task<CourseDto> Get(int id)
         {
-            var course = await _repository.Get(id);
+            var course = await _courseRepository.Get(id);
 
             return _mapper.Map<CourseDto>(course);
         }
 
         public IEnumerable<CourseDto> GetAll()
         {
-            var courses = _repository.GetAll();
+            var courses = _courseRepository.GetAllCoursesWithNestedData();
 
             return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
@@ -51,7 +58,7 @@ namespace BLL.Services
         {
             var course = _mapper.Map<Course>(entity);
 
-            await _repository.Update(course);
+            await _courseRepository.Update(course);
         }
     }
 }

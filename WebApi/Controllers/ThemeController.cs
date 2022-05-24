@@ -35,10 +35,10 @@ namespace WebApi.Controllers
         [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.ExpiriencedUser)]
         [HttpPost]
         [Route("api/course/{id}/theme/")]
-        public async Task<int> Create([FromBody] ThemeDto dto, [FromQuery] int courseId)
+        public async Task<int> Create(int id, [FromBody] ThemeDto dto)
         {
             _logger.LogInformation($"Create theme." + DateTime.Now);
-            return await _service.CreateThemeForCourse(dto, courseId);
+            return await _service.CreateThemeForCourse(dto, id);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
