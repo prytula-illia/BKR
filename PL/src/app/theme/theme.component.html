@@ -10,8 +10,8 @@
         <div class="my-3" layoyt="row">
             <button class="btn btn-primary btn-sm btn-block my-3 mx-1 float-end mybutton" 
             style="width: 200px; background-color: rgb(0, 77, 193);" (click)="learnTheme(t.id)">Learn theme!</button>
-            <button class="btn btn-success btn-sm btn-block my-3 mx-1 float-end" (click)="updateTheme(updateThemeModal)">Update theme</button>
-            <button class="btn btn-danger btn-sm btn-block my-3 mx-1 float-end" (click)="deleteTheme(deleteThemeModal)">Delete theme</button>
+            <button class="btn btn-success btn-sm btn-block my-3 mx-1 float-end" (click)="updateTheme(updateThemeModal)"  *ngIf="loginService.getCurrentUserRole() === 'admin'">Update theme</button>
+            <button class="btn btn-danger btn-sm btn-block my-3 mx-1 float-end" (click)="deleteTheme(deleteThemeModal)"  *ngIf="loginService.getCurrentUserRole() === 'admin'">Delete theme</button>
         </div>        
         <ng-template #updateThemeModal let-modal>
             <div class="modal-header">

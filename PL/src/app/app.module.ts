@@ -45,7 +45,7 @@ import { ThemeLearnComponent } from './theme/theme-learn/theme-learn.component';
       {path: 'themes-page', component: ThemeComponent},
       {path: 'theme-create-page', component: ThemeCreateComponent},
       {path: 'theme-learn-page', component: ThemeLearnComponent},
-      {path: '', redirectTo: '/login-page', pathMatch: 'full'},
+      {path: '', redirectTo: '/main-page', pathMatch: 'full'},
     ]),
   ],
   providers: [],

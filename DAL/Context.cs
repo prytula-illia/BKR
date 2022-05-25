@@ -3,6 +3,7 @@ using DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace DAL
 {
@@ -28,7 +29,7 @@ namespace DAL
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<PracticalTask>()
                 .HasMany(t => t.Answers)
-                .WithMany(a => a.Tasks);
+                .WithOne(a => a.Task);
 
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.Themes)
@@ -51,6 +52,38 @@ namespace DAL
                 .HasConversion(
                     v => v.ToString(),
                     v => (QuestionType)Enum.Parse(typeof(QuestionType), v));
+
+            modelBuilder.Entity<Course>().HasData
+                (
+                    new Course() 
+                    {
+                        Id = 1, 
+                        Name = ".NET Course",
+                        Description = "This course is supposed to teach new users basic knowlage about .NET and C# language.",
+                        Themes = new List<Theme>()
+                    },
+                    new Course()
+                    {
+                        Id = 2,
+                        Name = "Java Course",
+                        Description = "This course is supposed to teach new users basic knowlage about Java.",
+                        Themes = new List<Theme>()
+                    },
+                    new Course()
+                    {
+                        Id = 3,
+                        Name = "C++ Course",
+                        Description = "This course is supposed to teach new users basic knowlage about C++ language.",
+                        Themes = new List<Theme>()
+                    },
+                    new Course()
+                    {
+                        Id = 4,
+                        Name = "HTML Course",
+                        Description = "This course is supposed to teach new users basic knowlage about HTML markup language.",
+                        Themes = new List<Theme>()
+                    }
+                );
         }
     }
 }

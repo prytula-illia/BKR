@@ -1,5 +1,4 @@
 <h1 class="mb-5" style="text-align: center;">Courses</h1>
-      
 <div class="container p-3 working-area">
     <button class="btn btn-success btn-sm btn-block my-3 mx-3 float-end" (click)="createCourse(createCourseModal)">Create course</button>
     <div class="container p-5" *ngFor="let c of service.courses">
@@ -10,8 +9,8 @@
         <div class="my-3" layoyt="row">
             <button class="btn btn-primary btn-sm btn-block my-3 mx-1 float-end mybutton" 
             style="width: 200px; background-color: rgb(0, 77, 193);" (click)="redirectToThemes(c.id)">Go to course themes</button>
-            <button class="btn btn-success btn-sm btn-block my-3 mx-1 float-end" (click)="updateCourse(updateCourseModal)">Update course</button>
-            <button class="btn btn-danger btn-sm btn-block my-3 mx-1 float-end" (click)="deleteCourse(deleteCourseModal)">Delete course</button>
+            <button class="btn btn-success btn-sm btn-block my-3 mx-1 float-end" (click)="updateCourse(updateCourseModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">Update course</button>
+            <button class="btn btn-danger btn-sm btn-block my-3 mx-1 float-end" (click)="deleteCourse(deleteCourseModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">Delete course</button>
         </div>       
         <ng-template #updateCourseModal let-modal>
             <div class="modal-header">

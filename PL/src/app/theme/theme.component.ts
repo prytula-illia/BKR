@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Theme } from '../shared/models/theme.model';
+import { LoginService } from '../shared/services/login.service';
 import { ThemeService } from '../shared/services/theme.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { ThemeService } from '../shared/services/theme.service';
 })
 export class ThemeComponent implements OnInit {
 
-  constructor(public service : ThemeService, private modalService: NgbModal, private route: ActivatedRoute, private router: Router) { }
+  constructor(public service : ThemeService, public loginService : LoginService, private modalService: NgbModal, private route: ActivatedRoute, private router: Router) { }
   
   private id : number;
   ngOnInit(): void {

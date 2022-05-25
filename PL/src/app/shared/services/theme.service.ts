@@ -14,12 +14,16 @@ export class ThemeService {
 
   public formData : Theme = new Theme();
   public themes : Theme[];
+  public courseId : number;
   readonly baseUrl = 'https://localhost:44303/api/';
 
   getAllThemes(id : number) {
     this.http.get<Theme[]>(this.baseUrl + `course/${id}/theme`, { headers: this.generateTokenHeaders() })
       .subscribe({
-        next: (res) => { this.themes = res as Theme[];},
+        next: (res) => { 
+          this.courseId = id;
+          this.themes = res as Theme[];
+        },
         error: (err) => {console.log(err);}
       }); 
   }

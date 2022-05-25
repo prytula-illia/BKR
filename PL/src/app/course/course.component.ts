@@ -3,6 +3,7 @@ import { CourseService } from '../shared/services/course.service';
 import { Course } from '../shared/models/course.model';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { LoginService } from '../shared/services/login.service';
 
 @Component({
   selector: 'app-course',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CourseComponent implements OnInit {
   
-  constructor(public service: CourseService, private modalService: NgbModal, private router: Router) { }
+  constructor(public service: CourseService, public loginService : LoginService,private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
     this.service.getAllCourses();
