@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,12 @@ import { PracticalTask } from 'src/app/shared/models/practical-task.model';
 import { StudyingMaterial } from 'src/app/shared/models/studying-material.model';
 import { Theme } from 'src/app/shared/models/theme.model';
 import { ThemeService } from 'src/app/shared/services/theme.service';
+
+
+class AnswerQuestion {
+  answer : string = '';
+  question : string = '';
+}
 
 @Component({
   selector: 'app-theme-create',
@@ -20,7 +26,7 @@ export class ThemeCreateComponent implements OnInit {
 
   private id : number;
   public answers : Answer[] = [new Answer(), new Answer()];
-  public questionParts : string[] = ['',''];
+  public answerQuestions : AnswerQuestion[] = [new AnswerQuestion(), new AnswerQuestion()];
   
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -68,12 +74,39 @@ export class ThemeCreateComponent implements OnInit {
 
   addAnswer() {
     this.answers.push(new Answer());
-    this.questionParts.push('');
   }
 
   removeAnswer() {
     this.answers.pop();
-    this.questionParts.pop();
+  }
+
+
+  addAnswerQuestion() {
+    this.answerQuestions.push(new AnswerQuestion());
+  }
+
+  removeAnswerQuestion() {
+    this.answerQuestions.pop();
+  }
+
+  getOnlyAnswers(arr : AnswerQuestion[]) {
+    var result : Answer[] = [];
+    arr.forEach(element => {
+      result.push({
+        id: 0,
+        content: element.answer,
+        isCorrect: true
+      });
+    });
+    return result;
+  }
+
+  getOnlyQuestions(arr : AnswerQuestion[]) {
+    var result : string[] = [];
+    arr.forEach(element => {
+      result.push(element.question);
+    });
+    return result;
   }
 
   concatQuestion(start : string, end : string) : string {
@@ -81,9 +114,11 @@ export class ThemeCreateComponent implements OnInit {
   }
 
   concatQuestions(start : string, arr : string[]) : string {
+    var result = start;
+    alert(arr);
     arr.forEach(element => {
-      start = this.concatQuestion(start, element);
+      result = this.concatQuestion(result, element);
     });
-    return start;
+    return result;
   }
 }

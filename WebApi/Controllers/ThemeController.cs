@@ -32,6 +32,14 @@ namespace WebApi.Controllers
             return await _service.GetCourseThemes(id);
         }
 
+        [HttpGet]
+        [Route("api/theme/{id}")]
+        public async Task<ThemeDto> Get(int id)
+        {
+            _logger.LogInformation($"Getting theme with id {id}." + DateTime.Now);
+            return await _service.Get(id);
+        }
+
         [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.ExpiriencedUser)]
         [HttpPost]
         [Route("api/course/{id}/theme/")]

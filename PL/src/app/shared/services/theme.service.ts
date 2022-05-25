@@ -24,6 +24,10 @@ export class ThemeService {
       }); 
   }
 
+  getTheme(id : number) {
+    return this.http.get(this.baseUrl + `theme/${id}`, { headers: this.generateTokenHeaders() });
+  }
+
   createTheme(id : number) {
     return this.http.post(this.baseUrl + `course/${id}/theme`, this.formData, { headers: this.generateTokenHeaders() });
   }
@@ -41,8 +45,7 @@ export class ThemeService {
   }
 
   removeMaterialFromData(sm : StudyingMaterial) {
-    var index = this.formData.studyingMaterials.indexOf(sm);
-    return delete this.formData.studyingMaterials[index];
+    this.removeFromArray(this.formData.studyingMaterials, sm);
   };
 
   addTaskToFormData(task : PracticalTask) {
@@ -50,9 +53,15 @@ export class ThemeService {
   }
   
   removeTaskFromData(task : PracticalTask) {
-    var index = this.formData.tasks.indexOf(task);
-    return delete this.formData.tasks[index];
+    this.removeFromArray(this.formData.tasks, task);
   };
+
+  removeFromArray(arr: any[], element: any) {
+    const index = arr.indexOf(element, 0);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+  }
 
   generateTokenHeaders() : HttpHeaders {
     var tokenStr = localStorage.getItem('id_token');

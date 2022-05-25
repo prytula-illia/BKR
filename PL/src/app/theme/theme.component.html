@@ -9,7 +9,7 @@
         <p>{{t.description}}<p>
         <div class="my-3" layoyt="row">
             <button class="btn btn-primary btn-sm btn-block my-3 mx-1 float-end mybutton" 
-            style="width: 200px; background-color: rgb(0, 77, 193);" >Learn theme!</button>
+            style="width: 200px; background-color: rgb(0, 77, 193);" (click)="learnTheme(t.id)">Learn theme!</button>
             <button class="btn btn-success btn-sm btn-block my-3 mx-1 float-end" (click)="updateTheme(updateThemeModal)">Update theme</button>
             <button class="btn btn-danger btn-sm btn-block my-3 mx-1 float-end" (click)="deleteTheme(deleteThemeModal)">Delete theme</button>
         </div>        

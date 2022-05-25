@@ -15,6 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ThemeComponent } from './theme/theme.component';
 import { RegisterComponent } from './register/register.component';
 import { ThemeCreateComponent } from './theme/theme-create/theme-create.component';
+import { ThemeLearnComponent } from './theme/theme-learn/theme-learn.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ThemeCreateComponent } from './theme/theme-create/theme-create.componen
     ThemeComponent,
     RegisterComponent,
     ThemeCreateComponent,
+    ThemeLearnComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,7 @@ import { ThemeCreateComponent } from './theme/theme-create/theme-create.componen
       {path: 'course-page', component: CourseComponent},
       {path: 'themes-page', component: ThemeComponent},
       {path: 'theme-create-page', component: ThemeCreateComponent},
+      {path: 'theme-learn-page', component: ThemeLearnComponent},
       {path: '', redirectTo: '/login-page', pathMatch: 'full'},
     ]),
   ],

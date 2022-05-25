@@ -19,7 +19,7 @@
         </div>
 
         <div class="container" *ngFor="let t of service.formData.tasks">
-            <div class="form-group mt-3 text-center">
+            <div class="form-group mt-3 text-center" #divWithTask>
                 <p>Task with question '{{t.question}}'</p>
                 <button class="btn btn-danger btn-sm btn-block mb-3 mx-3" type="button" (click)="removeTask(t)">Remove task</button>
             </div> 
@@ -34,7 +34,6 @@
         </div>
     </form>
 </div>
-
 
 <ng-template #chooseTaskType>
     <div class="container my-3 text-center">
@@ -79,7 +78,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-success" [disabled]="form.invalid" (click)="modal.close({
+        <button type="button" class="btn btn-success" (click)="modal.close({
             id: 0,
             question: question.value,
             type: 0,
@@ -87,7 +86,6 @@
         })">Add task</button>
     </div>
 </ng-template>
-
 
 <ng-template #multiChoiseQuestion let-modal>
     <div class="modal-header">
@@ -156,7 +154,6 @@
     </div>
 </ng-template>
 
-
 <ng-template #sentenceQuestion let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Create sentence question</h4>
@@ -166,28 +163,28 @@
             <label class="m-2">Enter strat of the question:</label>
             <input class="form-control form-control-sm" name="questionStart" #questionStart>
         </div>
-        <div  class="my-3" *ngFor='let answ of answers; let i=index;'>
+        <div  class="my-3" *ngFor='let aq of answerQuestions;'>
             <div class="form-group mt-3">
                 <label class="m-2">Enter gap answer:</label>
-                <input class="form-control form-control-sm" [ngModel]="answ.content">
+                <input class="form-control form-control-sm" [(ngModel)]="aq.answer">
             </div>
             <div class="form-group mt-3">
                 <label class="m-2">Enter question continuation:</label>
-                <input class="form-control form-control-sm" [ngModel]="questionParasdfts[i]"> // does not bind ???
+                <input class="form-control form-control-sm" [(ngModel)]="aq.question">
             </div>
         </div>
         <div class="container col text-center">
-            <button type="button" class="btn btn-primary btn-sm btn-block m-3" (click)="addAnswer()">Add answer</button>
-            <button type="button" class="btn btn-danger btn-sm btn-block m-3" (click)="removeAnswer()">Remove answer</button>
+            <button type="button" class="btn btn-primary btn-sm btn-block m-3" (click)="addAnswerQuestion()">Add answer</button>
+            <button type="button" class="btn btn-danger btn-sm btn-block m-3" (click)="removeAnswerQuestion()">Remove answer</button>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
         <button type="button" class="btn btn-success" (click)="modal.close({
             id: 0,
-            question: concatQuestions(questionStart.value, questionParts),
+            question: concatQuestions(questionStart.value, getOnlyQuestions(answerQuestions)),
             type: 2,
-            answers: answers
+            answers: getOnlyAnswers(answerQuestions)
         })">Add task</button>
     </div>
 </ng-template>

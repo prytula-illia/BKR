@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label>Title: </label>
+            <h4>{{material.title}}</h4>
+        </div>
+        <div class="form-group mt-3">
+            <label>Content: </label>
+            <p>{{material.content}}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getPrevMaterial()">Previous</button>
+        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getNextMaterial()">Next</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container mb-3">
+        <div class="form-group mt-3">
+            <label>Question: </label>
+            <h4>{{task.question}}</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getPrevTask()">Previous</button>
+        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getNextTask()">Next</button>
+    </div>
+</div>

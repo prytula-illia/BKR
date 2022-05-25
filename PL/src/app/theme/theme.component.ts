@@ -51,4 +51,8 @@ export class ThemeComponent implements OnInit {
     },
     (error) => console.log(error));
   } 
+
+  learnTheme(themeId : number) {
+    this.router.navigate(['/theme-learn-page'], { queryParams: { id: themeId } });
+  }
 }
