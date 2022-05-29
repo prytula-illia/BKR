@@ -15,17 +15,16 @@ export class LoginComponent implements OnInit {
   constructor(public service : LoginService, private router : Router) { }
 
   ngOnInit(): void {
+    if(this.service.isLoggedIn()) {
+      this.router.navigate(['/main-page']);
+    }
   }
 
   onSubmit(form : NgForm){
-    this.service.postLogin().subscribe({
-      next: () => {
-        this.router.navigate(['/main-page'])
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-      }
-    );
+    this.service.postLogin().subscribe((data : Token) => {
+      localStorage.setItem('id_token', data.token);
+      localStorage.setItem("expires_at", JSON.stringify(data.expiration.valueOf()) );
+      this.router.navigate(['/main-page'])
+    });
   }
 }

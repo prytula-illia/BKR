@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Theme } from '../shared/models/theme.model';
 import { LoginService } from '../shared/services/login.service';
 import { ThemeService } from '../shared/services/theme.service';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-theme',
@@ -13,7 +14,13 @@ import { ThemeService } from '../shared/services/theme.service';
 })
 export class ThemeComponent implements OnInit {
 
-  constructor(public service : ThemeService, public loginService : LoginService, private modalService: NgbModal, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    public service : ThemeService, 
+    public loginService : LoginService, 
+    private modalService: NgbModal, 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private userService : UserService) { }
   
   private id : number;
   ngOnInit(): void {
@@ -29,31 +36,38 @@ export class ThemeComponent implements OnInit {
 
   updateTheme(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Theme) => {
-      this.service.updateTheme(result).subscribe( 
-        () =>{
-          this.ngOnInit();
-        },
-        (err) => {
-          console.log(err);
-        });
-    },
-    (error) => console.log(error));
+      this.service.updateTheme(result).subscribe({
+        next: () => this.ngOnInit()
+      });
+    });
   }
   
   deleteTheme(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : number) => {
-      this.service.deleteThemeById(result).subscribe( 
-        () =>{
-          this.ngOnInit();
-        },
-        (err) => {
-          console.log(err);
-        });
-    },
-    (error) => console.log(error));
+      this.service.deleteThemeById(result).subscribe({
+        next: () => this.ngOnInit()
+      });
+    });
   } 
+  
+  searchThemes(name : string) {
+    if(name)
+    {
+      this.service.themes = this.service.themes.filter(x => x.title.toLowerCase().includes(name.toLowerCase()));
+    }
+    else
+    {
+      this.service.getAllThemes(this.service.courseId);
+    }
+  }
 
   learnTheme(themeId : number) {
     this.router.navigate(['/theme-learn-page'], { queryParams: { id: themeId } });
+  }
+
+  isThemeFinished(themeId : number) {
+    if(this.userService.statistic && this.userService.statistic.finishedThemes)
+      return this.userService.statistic.finishedThemes.findIndex(x => x.id == themeId) !== -1;
+    return false;
   }
 }

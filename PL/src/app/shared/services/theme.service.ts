@@ -18,30 +18,34 @@ export class ThemeService {
   readonly baseUrl = 'https://localhost:44303/api/';
 
   getAllThemes(id : number) {
-    this.http.get<Theme[]>(this.baseUrl + `course/${id}/theme`, { headers: this.generateTokenHeaders() })
+    this.http.get<Theme[]>(this.baseUrl + `course/${id}/theme`)
       .subscribe({
-        next: (res) => { 
+        next: (res : Theme[]) => { 
           this.courseId = id;
-          this.themes = res as Theme[];
+          this.themes = res;
         },
         error: (err) => {console.log(err);}
       }); 
   }
 
+  getThemesForCourse(id : number) {
+    return this.http.get(this.baseUrl + `course/${id}/theme`);
+  }
+
   getTheme(id : number) {
-    return this.http.get(this.baseUrl + `theme/${id}`, { headers: this.generateTokenHeaders() });
+    return this.http.get(this.baseUrl + `theme/${id}`);
   }
 
   createTheme(id : number) {
-    return this.http.post(this.baseUrl + `course/${id}/theme`, this.formData, { headers: this.generateTokenHeaders() });
+    return this.http.post(this.baseUrl + `course/${id}/theme`, this.formData);
   }
 
   updateTheme(theme : Theme) {
-    return this.http.put(this.baseUrl + "theme/", theme, { headers: this.generateTokenHeaders() });
+    return this.http.put(this.baseUrl + "theme/", theme);
   }
 
   deleteThemeById(id : number) {
-    return this.http.delete(this.baseUrl + `theme/${id}`, { headers: this.generateTokenHeaders() });
+    return this.http.delete(this.baseUrl + `theme/${id}`);
   }
 
   addMaterialToFormData(result : StudyingMaterial) {
@@ -65,14 +69,5 @@ export class ThemeService {
     if (index > -1) {
       arr.splice(index, 1);
     }
-  }
-
-  generateTokenHeaders() : HttpHeaders {
-    var tokenStr = localStorage.getItem('id_token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${tokenStr}`
-    });
-    return headers;
   }
 }

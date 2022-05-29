@@ -21,37 +21,43 @@ export class CourseComponent implements OnInit {
 
   createCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
-      this.service.createCourse(result).subscribe( 
-        () =>{
-          this.ngOnInit();
-        },
-        (err) => {
-          console.log(err);
+      if(result.name.length < 5){
+        alert("Name should be atleast 5 characters.")
+      }
+      else if(result.description.length < 10) {
+        alert("Description should be atleast 10 characters.")
+      }
+      else
+      {
+        this.service.createCourse(result).subscribe({
+          next: () => this.ngOnInit()
         });
+      }
     });
   }
 
   updateCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
-      this.service.updateCourse(result).subscribe( 
-        () =>{
-          this.ngOnInit();
-        },
-        (err) => {
-          console.log(err);
+      if(result.name.length < 5){
+        alert("Name should be atleast 5 characters.")
+      }
+      else if(result.description.length < 10) {
+        alert("Description should be atleast 10 characters.")
+      }
+      else
+      {
+        this.service.updateCourse(result).subscribe({
+          next: () => this.ngOnInit()
         });
+      }
     });
   }
   
   deleteCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : number) => {
-      this.service.deleteCourseById(result).subscribe( 
-        () =>{
-          this.ngOnInit();
-        },
-        (err) => {
-          console.log(err);
-        });
+      this.service.deleteCourseById(result).subscribe({
+        next: () => this.ngOnInit()
+      });
     });
   }
   

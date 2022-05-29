@@ -11,6 +11,5 @@ namespace DAL.Entities
         public int Rating { get; set; }
         public List<Course> FinishedCourses { get; set; }
         public List<Theme> FinishedThemes { get; set; }
-        public List<PracticalTask> FinishedTasks { get; set; }
     }
 }

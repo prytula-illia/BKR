@@ -1,24 +1,27 @@
-<div class="container" style="width: 50vw;">
+<div class="container" style="width: 35vw;">
     <form class="form-control form-control-lg" novalidate #form="ngForm" (submit)="onSubmit(form)">
-        <h3 class="text-center mt-3">Register your account</h3>
-        <div class="form-group mt-3">
-            <label class="mx-1 my-1">Username: </label>
-            <input class="form-control form-control-lg" placeholder="Username"
-                 name="username" #username="ngModel" [(ngModel)]="service.formData.username" required minlength="5" maxlength="50">
-        </div>
-        <div class="form-group mt-3">
-            <label class="mx-1 my-1">Email: </label>
-            <input class="form-control form-control-lg" type="email" placeholder="Email"
-                 name="email" #email="ngModel" [(ngModel)]="service.formData.email" required>
-        </div>
-        <div class="form-group mt-3">
-            <label class="mx-1 my-1">Password: </label>
-            <input type="password" class="form-control form-control-lg" placeholder="Password"
-                 name="password" #password="ngModel" [(ngModel)]="service.formData.password" required>
-        </div>
-        <div class="form-group mt-3 text-center">
-            <button class="btn btn-primary btn-sm btn-block mb-3 mx-3 mybutton" routerLink="/login-page">Log in</button>
-            <button class="btn btn-primary btn-sm btn-block mb-3 mybutton" type="Submit" [disabled]="form.invalid">Register</button>
+        <div class="p-4">
+            <p class="text-center mt-3 monceratFont" style="font-size: 30px;">Register your account</p>
+            <div class="container px-4">
+                <div class="form-group mt-3">
+                    <label class="mx-1 my-3 robotoFont" style="font-size: 14px;">Username</label>
+                    <input class="form-control" placeholder="Username"
+                         name="username" #username="ngModel" [(ngModel)]="service.formData.username">
+                </div>
+                <div class="form-group mt-3">
+                    <label class="mx-1 my-3 robotoFont" style="font-size: 14px;">Email</label>
+                    <input class="form-control"type="email" placeholder="Email" name="email" #email="ngModel" [(ngModel)]="service.formData.email">
+                </div>
+                <div class="form-group mt-3">
+                    <label class="mx-1 my-3 robotoFont" style="font-size: 14px;">Password</label>
+                    <input type="password" class="form-control" placeholder="Password"
+                         name="password" #password="ngModel" [(ngModel)]="service.formData.password">
+                </div>
+            </div>
+            <div class="form-group mt-5 text-center">
+                <button class="btn btn-sm btn-block mb-3 mx-3 mybutton" style="width: 90% !important;" type="Submit">Log in</button>
+                <p class="robotoFont m-3" style="font-size: 12px;">Already have an account? <a routerLink="/login-page">Login</a></p>
+            </div>
         </div>
     </form>
 </div>

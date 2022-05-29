@@ -58,30 +58,25 @@ namespace BLL.Services
         public async Task Update(UserStatisticsDto entity)
         {
             var statistic = _mapper.Map<UserStatistics>(entity);
-
-            await _statisticRepository.Update(statistic);
-        }
-
-        public async Task<float> GetTasksFinishedRateForTheme(int statisticId, int themeId)
-        {
-            var statistic = await Get(statisticId);
-            var theme = await _themeRepository.Get(themeId);
-
-            var allCount = theme.Tasks.Count();
-            var finishedCount = statistic.FinishedTasks.Count();
-
-            return (float)finishedCount / allCount;
+            await _statisticRepository.UpdateStatistic(statistic);
         }
 
         public async Task<float> GetThemesFinishedRateForCourse(int statisticId, int courseId)
         {
-            var statistic = await Get(statisticId);
-            var course = await _courseRepository.Get(courseId);
+            var statistic = _statisticRepository.GetWithNestedData(statisticId);
+            var course = await _courseRepository.GetCourseWithAllNestedData(courseId);
 
-            var allCount = course.Themes.Count();
-            var finishedCount = statistic.FinishedThemes.Count();
+            var allCount = course.Themes.Count;
+            var finishedCount = statistic?.FinishedThemes.Where(x => x.Course.Id == courseId).Count();
 
             return (float)finishedCount / allCount;
+        }
+
+        public UserStatisticsDto GetByName(string name)
+        {
+            var statistic = _statisticRepository.GetByName(name);
+
+            return _mapper.Map<UserStatisticsDto>(statistic);
         }
     }
 }

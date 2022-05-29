@@ -1,29 +1,39 @@
-<div class="container">
-    <div class="container mb-3">
-        <div class="form-group mt-3">
-            <label>Title: </label>
-            <h4>{{material.title}}</h4>
+<div class="container p-3">
+    <div class="container  p-5" style="width: 50vw;">
+        <div class="container mb-5">
+            <div class="form-group mt-3">
+                <h4 class="monceratFont" style="font-size: 36px">{{material.title}}</h4>
+            </div>
+            <div class="form-group mt-5">
+                <p>{{material.content}}</p>
+            </div>
         </div>
-        <div class="form-group mt-3">
-            <label>Content:</label>
-            <p>{{material.content}}</p>
+        <div class="row justify-content-between">
+            <button type="button" class="btn btn-sm btn-block mybutton mx-2 col-2" (click)="getPrevMaterial()">Previous material</button>
+            <button type="button" class="btn btn-sm btn-block mybutton mx-2 col-2" (click)="getNextMaterial()">Next material</button>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getPrevMaterial()">Previous</button>
-        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getNextMaterial()">Next</button>
+        <div class="container mt-5">
+            <h4 class="monceratFont">Comments:</h4>
+            <div *ngFor="let comment of material.comments">
+                <div class="themeHolder my-3 p-4">
+                    <h6 class="monceratFont mt-3">{{comment.userName}}</h6>
+                    <p class="my-5">{{comment.content}}</p>
+                    <p class="my-2" style="text-align: right; font-size:14px">{{getBeautifulDate(comment.dateTime)}}</p>
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <label class="py-4 monceratFont" style="font-size: 16px; font-weight:500">Add your comment: </label>
+                <textarea class="form-control themeHolder" style="min-height: 150px; border-radius: 5px;" name="comment" #comment></textarea>
+            </div>
+            <div class="float-end mt-4">
+                <button type="button" class="btn btn-sm btn-block mb-3 mybutton" (click)="addComment({
+                    id: 0,
+                    userName: getUserName(),
+                    content: comment.value,
+                    dateTime: getCurrentDate()
+                })">Add comment</button>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="container mb-3">
-        <div class="form-group mt-3">
-            <label>Question: </label>
-            <h4>{{task.question}}</h4>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getPrevTask()">Previous</button>
-        <button type="button" class="btn btn-primary btn-sm btn-block m-3 mybutton" (click)="getNextTask()">Next</button>
-    </div>
-</div>

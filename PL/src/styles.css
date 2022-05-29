@@ -1,41 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body, html {
     height: 100%;
+    font-family: 'Roboto';
+    font-style: normal;
   }
   
   footer {
     background-color: rgb(61,163,167);
+    color: #FFFFFF !important;
   }
 
   .mybutton {
     width: 200px !important;
-    background-color: rgb(19,141,146) !important;
+    height: 36px;
+    border-radius: 5px;
+    background-color: #4BB5AB !important;
+    color:  #FFFFFF;
   }
 
   .underfooter {
-    background-color: rgb(19,141,146);
+    background-color: #4BB5AB;
   }
   
   .formbg {
-    background-color: rgb(241,241,241);
+    background-color: rgb(255, 255, 255);
   }
 
   .bg {
-    
-    /* The image used */
-    background-color: rgb(235,235,235);
+    background-color: rgb(255, 255, 255);
 
-    /* Full height */
     height: 100%;
   
-    /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
   }
 
   .working-area {
-    background-color: rgb(241,241,241);
-    width: 60vw;
+    width: 50vw;
     min-height: 55vh;
+
+    background: #FFFFFF;
+
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    box-shadow: 0px 4px 65px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+  }
+
+  .monceratFont {
+    font-family: 'Montserrat' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+  }
+  
+  .robotoFont {
+    font-family: 'Roboto' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+  }
+
+  .themeHolder { 
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    box-shadow: 0px 4px 65px rgba(0, 0, 0, 0.05);
     border-radius: 15px;
   }

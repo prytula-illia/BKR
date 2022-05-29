@@ -13,6 +13,7 @@ namespace DAL.Repositories
         public CourseRepository(Context context) : base(context)
         {
         }
+
         public IEnumerable<Course> GetAllCoursesWithNestedData()
         {
             return _context.Courses
@@ -21,7 +22,8 @@ namespace DAL.Repositories
                         .ThenInclude(x => x.Answers)
                 .Include(x => x.Themes)
                     .ThenInclude(x => x.StudyingMaterials)
-                        .ThenInclude(x => x.Comments);
+                        .ThenInclude(x => x.Comments)
+                .AsSplitQuery();
         }
 
         public async Task<Course> GetCourseWithAllNestedData(int id)
@@ -33,6 +35,7 @@ namespace DAL.Repositories
                 .Include(x => x.Themes)
                     .ThenInclude(x => x.StudyingMaterials)
                         .ThenInclude(x => x.Comments)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync();
         }
     }

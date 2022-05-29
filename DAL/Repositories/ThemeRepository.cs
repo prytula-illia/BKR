@@ -20,17 +20,23 @@ namespace DAL.Repositories
                 .Include(x => x.Tasks)
                     .ThenInclude(x => x.Answers)
                 .Include(x => x.StudyingMaterials)
-                    .ThenInclude(x => x.Comments);
+                    .ThenInclude(x => x.Comments)
+                .AsSplitQuery()
+                .ToList();
         }
 
         public async Task<Theme> GetWithNestedData(int id)
         {
-            return await _context.Themes.Where(x => x.Id == id)
+            var result = await _context.Themes.Where(x => x.Id == id)
                 .Include(x => x.Tasks)
                     .ThenInclude(x => x.Answers)
                 .Include(x => x.StudyingMaterials)
                     .ThenInclude(x => x.Comments)
-                .FirstOrDefaultAsync();
+                .Include(x => x.Course)
+                .AsSplitQuery()
+                .ToListAsync();
+
+            return result.FirstOrDefault();
         }
     }
 }

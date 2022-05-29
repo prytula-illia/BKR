@@ -32,13 +32,24 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/statistic/{id}")]
-        public async Task<UserStatisticsDto> Get(int id)
+        [Route("api/statistic/{userName}")]
+        public UserStatisticsDto Get(string userName)
         {
-            _logger.LogInformation($"Get statistic with id {id}." + DateTime.Now);
-            return await _service.Get(id);
+            _logger.LogInformation($"Get statistic for user {userName}." + DateTime.Now);
+            return _service.GetByName(userName);
         }
 
+
+        [HttpGet]
+        [Route("api/statistic/{statisticId}/themesRaterForCourse/{courseId}")]
+        public async Task<float> GetThemesReateForCourse(int statisticId, int courseId)
+        {
+            _logger.LogInformation("Get statistic for course: " + DateTime.Now);
+            return await _service.GetThemesFinishedRateForCourse(statisticId, courseId);
+        }
+
+
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [Route("api/statistic/")]
         public async Task<int> Create([FromBody] UserStatisticsDto dto)
@@ -47,7 +58,6 @@ namespace WebApi.Controllers
             return await _service.Create(dto);
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut]
         [Route("api/statistic/")]
         public async Task Update([FromBody] UserStatisticsDto dto)

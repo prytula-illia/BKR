@@ -35,33 +35,43 @@ export class ThemeCreateComponent implements OnInit {
   }
 
   createTheme(form : NgForm) {
-    this.service.createTheme(this.id).subscribe( 
-      () =>{
+    this.service.createTheme(this.id).subscribe({
+      next: () => {
         this.service.formData = new Theme();
         this.router.navigate(['/themes-page'], { queryParams: { id: this.id } });
-      },
-      (err) => {
-        console.log(err);
-      });
+      }
+    });
   }
 
   addMaterial(content : any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : StudyingMaterial) => {
-      this.service.addMaterialToFormData(result);
+      if(result.title.length < 5){
+        alert("Title should be atleast 5 characters long.")
+      }
+      else if(result.content.length < 10){
+        alert("Content should be atleast 10 characters long.")
+      }
+      else {
+        this.service.addMaterialToFormData(result);
+      }
     },
     (error) => console.log(error));
   }
 
   selectTaskType(content : any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(
-      (error) => console.log(error));
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then();
   }
 
   addTask(content : any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : PracticalTask) => {
-      this.service.addTaskToFormData(result);
-    },
-    (error) => console.log(error));
+      if(result.question.length < 5){
+        alert("Question should be atleast 5 characters long.")
+      }
+      else 
+      {
+        this.service.addTaskToFormData(result);
+      }
+    });
   }
 
   removeTask(task : PracticalTask) {

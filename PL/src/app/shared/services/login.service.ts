@@ -16,12 +16,7 @@ export class LoginService {
   readonly baseUrl = 'https://localhost:44303/api/authorization/login';
 
   postLogin() {
-    var result = this.http.post(this.baseUrl, this.formData);
-    result.subscribe((data : Token) => {
-      localStorage.setItem('id_token', data.token);
-      localStorage.setItem("expires_at", JSON.stringify(data.expiration.valueOf()) );
-    });
-    return result;
+    return this.http.post(this.baseUrl, this.formData);
   }
 
   logout() {

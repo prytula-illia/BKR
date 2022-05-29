@@ -1,0 +1,22 @@
+<div class="row robotoFont">
+    <div class="col mx-5">
+        <div class="container themeHolder p-5">
+            <h4 class="my-4">Username: {{userName}}</h4>
+            <h4 class="my-4">Role: {{userRole}}</h4>
+            <h4 class="my-4">Score: {{statistic.rating}}</h4>
+            <h4 class="my-4">Total finished courses: {{finishedCoursesCount}}</h4>
+            <div class="text-center">
+                <button class="btn btn-sm btn-block mt-3 mybutton" (click)="updateStatistic()">Renew statistic</button>
+            </div>
+        </div>
+    </div>
+    <div class="col mx-5 px-5">
+        <div class="container px-5 pt-0">
+            <div class="themeHolder p-4 my-3" *ngFor="let s of coursesStatistic">
+                <h3 class="monceratFont my-3">{{s[0]}}</h3>
+                <p class="my-2">Finished themes rate: {{s[1]}} %</p>
+                <p class="my-2">Score: {{s[2]}}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { CourseComponent } from './course/course.component';
@@ -16,6 +16,11 @@ import { ThemeComponent } from './theme/theme.component';
 import { RegisterComponent } from './register/register.component';
 import { ThemeCreateComponent } from './theme/theme-create/theme-create.component';
 import { ThemeLearnComponent } from './theme/theme-learn/theme-learn.component';
+import { UserstatisticComponent } from './userstatistic/userstatistic.component';
+import { ThemePracticeComponent } from './theme/theme-practice/theme-practice.component';
+import { AuthInterceptor } from './shared/auth.interceptor';
+import { ErrorComponent } from './error/error.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,9 +34,13 @@ import { ThemeLearnComponent } from './theme/theme-learn/theme-learn.component';
     RegisterComponent,
     ThemeCreateComponent,
     ThemeLearnComponent,
+    UserstatisticComponent,
+    ThemePracticeComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     MatDialogModule,
@@ -45,10 +54,19 @@ import { ThemeLearnComponent } from './theme/theme-learn/theme-learn.component';
       {path: 'themes-page', component: ThemeComponent},
       {path: 'theme-create-page', component: ThemeCreateComponent},
       {path: 'theme-learn-page', component: ThemeLearnComponent},
+      {path: 'theme-practice-page', component: ThemePracticeComponent},
+      {path: 'account-page', component: UserstatisticComponent},
       {path: '', redirectTo: '/main-page', pathMatch: 'full'},
+      {path: '**', component: ErrorComponent},
     ]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { isEmpty } from 'rxjs';
 import { LoginService } from '../shared/services/login.service';
 import { ThemeService } from '../shared/services/theme.service';
 
@@ -11,7 +10,7 @@ import { ThemeService } from '../shared/services/theme.service';
 })
 export class NavMenuComponent {
 
-  constructor(public loginService : LoginService, public themeService : ThemeService, public router : Router) {}
+  constructor(public loginService : LoginService, public router : Router) {}
   
   isExpanded = false;
 
@@ -27,14 +26,7 @@ export class NavMenuComponent {
     this.loginService.logout();
   }
   
-  searchThemes(name : string) {
-    if(name)
-    {
-      this.themeService.themes = this.themeService.themes.filter(x => x.title.includes(name));
-    }
-    else
-    {
-      this.themeService.getAllThemes(this.themeService.courseId);
-    }
+  goToLoginPage() {
+    this.router.navigate(['login-page']);
   }
 }

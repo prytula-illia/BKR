@@ -79,6 +79,18 @@ namespace DAL.Repositories
             var errors = string.Join(", ", result.Errors.Select(x => x.Description));
             if (!result.Succeeded)
                 throw new Exception("User creation failed! " + errors);
+
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.ExpiriencedUser))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.ExpiriencedUser));
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
         }
 
         public async Task RegisterAdmin(RegisterModel model)

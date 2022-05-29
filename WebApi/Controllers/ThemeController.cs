@@ -29,15 +29,18 @@ namespace WebApi.Controllers
         public async Task<IEnumerable<ThemeDto>> GetCourseThemes(int id)
         {
             _logger.LogInformation($"Getting all themes from course wiht id {id}." + DateTime.Now);
-            return await _service.GetCourseThemes(id);
+            var result = await _service.GetCourseThemes(id);
+            return result;
         }
 
         [HttpGet]
         [Route("api/theme/{id}")]
         public async Task<ThemeDto> Get(int id)
         {
-            _logger.LogInformation($"Getting theme with id {id}." + DateTime.Now);
-            return await _service.Get(id);
+            _logger.LogInformation($"Start: Getting theme with id {id}." + DateTime.Now);
+            var res = await _service.Get(id);
+            _logger.LogInformation($"End: Getting theme with id {id}." + DateTime.Now);
+            return res;
         }
 
         [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.ExpiriencedUser)]
