@@ -5,6 +5,7 @@ import { Theme } from 'src/app/shared/models/theme.model';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { ThemeService } from 'src/app/shared/services/theme.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-theme-practice',
@@ -13,6 +14,13 @@ import { UserService } from 'src/app/shared/services/user.service';
   ]
 })
 export class ThemePracticeComponent implements OnInit {
+  timePeriods = [
+    'Bronze age',
+    'Iron age',
+    'Middle ages',
+    'Early modern period',
+    'Long nineteenth century',
+  ];
 
   constructor(
     public service : ThemeService,
@@ -25,7 +33,8 @@ export class ThemePracticeComponent implements OnInit {
   private currentTaskIndex : number = 0;
   task : PracticalTask = new PracticalTask();
   theme : Theme = new Theme();
-  
+  probableAnswers : string[];
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       var themeId = params['id'];
@@ -34,9 +43,15 @@ export class ThemePracticeComponent implements OnInit {
           var theme = res as Theme;
           this.theme = theme;
           this.task = theme.tasks[0];
+          this.probableAnswers = this.task.answers.map(x => x.content);
+          console.log(this.task.question);
         }
       });
     });
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.probableAnswers, event.previousIndex, event.currentIndex);
   }
 
   goToStudyingMaterials() {
@@ -63,6 +78,7 @@ export class ThemePracticeComponent implements OnInit {
     else {
       this.currentTaskIndex++;
       this.task = this.theme.tasks[this.currentTaskIndex];
+      this.probableAnswers = this.task.answers.map(x => x.content);
     }
   }
 
@@ -71,13 +87,13 @@ export class ThemePracticeComponent implements OnInit {
     {
       case 0:
         var div = this.answers.toArray()[0].nativeElement as HTMLDivElement;
-        var yesCheckbox = div.firstChild.firstChild as HTMLInputElement;
-        var answ = this.task.answers.find(x => x.content == 'yes').isCorrect;
-        if(yesCheckbox.checked && answ) {
-          return true;
+        var noCheckbox = div.lastChild.firstChild as HTMLInputElement;
+        var answ = this.task.answers.find(x => x.content === 'no').isCorrect;
+        if(answ){
+          return noCheckbox.checked;
         }
-        else {
-          return false;
+        else{
+          return !noCheckbox.checked;
         }
       case 1:
         var result = true;
@@ -95,7 +111,7 @@ export class ThemePracticeComponent implements OnInit {
       case 3:
         var result = true;
         this.answers.toArray().forEach((element, i) => {
-          var div = element.nativeElement as HTMLDivElement;
+          var div = element.nativeElement.firstChild as HTMLDivElement;
           var answ = div.lastChild as HTMLInputElement;
           if(answ.value.trim() !== this.task.answers[i].content.trim()){
             result = false;
@@ -115,5 +131,9 @@ export class ThemePracticeComponent implements OnInit {
       this.currentTaskIndex--;
       this.task = this.theme.tasks[this.currentTaskIndex];
     }
+  }
+
+  splitQuestion() : string[] {
+    return this.task.question.split("________");
   }
 }

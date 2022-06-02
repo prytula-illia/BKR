@@ -79,7 +79,7 @@ namespace BLL.Services
 
         public IEnumerable<ThemeDto> SearchThemes(string themeName)
         {
-            return GetAll().Where(x => x.Title.Contains(themeName));
+            return GetAll().Where(x => x.Title.ToLower().Contains(themeName.ToLower()));
         }
 
         public async Task<IEnumerable<ThemeDto>> GetCourseThemes(int id)

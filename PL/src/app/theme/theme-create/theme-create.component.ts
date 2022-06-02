@@ -131,4 +131,9 @@ export class ThemeCreateComponent implements OnInit {
     });
     return result;
   }
+
+  generateQuestions(mainQuestion : string, first : string, rest : string[]) : string {
+    var result = this.concatQuestions(first, rest);
+    return this.concatQuestion(mainQuestion, result);
+  }
 }

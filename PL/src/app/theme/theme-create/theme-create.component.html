@@ -164,8 +164,12 @@
     <div class="p-5 robotoFont">
         <h4 class="modal-title monceratFont" id="modal-basic-title">Create sentence question</h4>
         <div class="form-group mt-3">
+            <label class="my-3">Enter main task</label>
+            <textarea class="form-control" name="mainQuestion" #mainQuestion></textarea>
+        </div>
+        <div class="form-group mt-3">
             <label class="my-3">Enter strat of the sentence</label>
-            <input class="form-control" name="questionStart" #questionStart>
+            <textarea class="form-control" name="questionStart" #questionStart></textarea>
         </div>
         <div  class="my-3" *ngFor='let aq of answerQuestions;'>
             <div class="form-group mt-3">
@@ -174,7 +178,7 @@
             </div>
             <div class="form-group mt-3">
                 <label class="my-3">Enter sentence continuation</label>
-                <input class="form-control" [(ngModel)]="aq.question">
+                <textarea class="form-control" [(ngModel)]="aq.question"></textarea>
             </div>
         </div>
         <div class="container col text-center">
@@ -185,7 +189,7 @@
             <button type="button" class="btn mx-4 btn-outline-dark col" (click)="modal.dismiss()">Cancel</button>
             <button type="button" class="btn mx-4 btn-block col mybutton" (click)="modal.close({
                 id: 0,
-                question: concatQuestions(questionStart.value, getOnlyQuestions(answerQuestions)),
+                question: generateQuestions(mainQuestion.value, questionStart.value, getOnlyQuestions(answerQuestions)),
                 type: 3,
                 answers: getOnlyAnswers(answerQuestions)
             })">Add task</button>

@@ -1,13 +1,13 @@
 <div class="container working-area">
-    <div class="container">
-        <div class="container mb-3 p-5 pb-0">
+    <div class="container p-5">
+        <div class="container mb-1 pb-0">
             <div class="form-group mt-3">
                 <label><p class="monceratFont" style="font-size: 36px;">Question</p></label>
-                <h4>{{task.question}}</h4>
             </div>
         </div> 
         <div class="px-5 py-3" [ngSwitch]="task.type">
             <div class="container pt-0" *ngSwitchCase="0" #answers>
+                <h4 class="mb-3 monceratFont">{{task.question}}</h4>
                 <div class="form-check mx-2">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" #yesansw [checked]="!noansw.checked">
                     <label class="form-check-label" for="inlineRadio1">Yes</label>
@@ -18,21 +18,26 @@
                 </div>
             </div>
             <div class="container mb-3 p-5 pt-0" *ngSwitchCase="1">
+                <h4 class="mb-3 monceratFont">{{task.question}}</h4>
                 <div class="form-check mx-2" *ngFor="let a of task.answers" #answers>
                     <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1">
                     <label class="form-check-label" for="inlineRadio1">{{a.content}}</label>
                 </div>
             </div>
             <div class="container mb-3 p-5 pt-0" *ngSwitchCase="2">
+                <h4 class="mb-3 monceratFont">Fill the gaps.</h4>
                 <div class="form-group mt-3">
                     <label class="m-2">Enter gap answer:</label>
                     <input class="form-control form-control-sm" name="answer" #answers>
                 </div>
             </div>
             <div *ngSwitchCase="3">
-                <div class="form-group mt-3" *ngFor="let a of task.answers" #answers>
-                    <label class="m-2">Enter gap answer:</label>
-                    <input class="form-control form-control-sm" name="answer">
+                <h4 class="mb-3 monceratFont">{{splitQuestion()[0]}}</h4>
+                <div class="p-4">
+                    <span *ngFor="let a of task.answers; let i = index;" #answers>                   
+                        <pre style="display: inline;">{{splitQuestion()[i+1]}}<input name="answer"></pre>
+                    </span>
+                    <pre style="display: inline;">{{splitQuestion()[splitQuestion().length-1]}}</pre>
                 </div>
             </div>
             <div *ngSwitchDefault>Cannot show task of undefined type</div>

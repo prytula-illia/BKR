@@ -13,17 +13,14 @@ namespace BLL.Services
     {
         private readonly IStatisticRepository _statisticRepository;
         private readonly ICourseRepository _courseRepository;
-        private readonly IThemeRepository _themeRepository;
         private readonly IMapper _mapper;
 
         public StatisticService(IStatisticRepository repository,
             ICourseRepository courseRepository,
-            IThemeRepository themeRepository,
             IMapper mapper)
         {
             _statisticRepository = repository;
             _courseRepository = courseRepository;
-            _themeRepository = themeRepository;
             _mapper = mapper;
         }
 
@@ -66,10 +63,13 @@ namespace BLL.Services
             var statistic = _statisticRepository.GetWithNestedData(statisticId);
             var course = await _courseRepository.GetCourseWithAllNestedData(courseId);
 
-            var allCount = course.Themes.Count;
-            var finishedCount = statistic?.FinishedThemes.Where(x => x.Course.Id == courseId).Count();
+            var allCount = course.Themes?.Count;
+            if (allCount == 0)
+                return 0;
 
-            return (float)finishedCount / allCount;
+            var finishedCount = statistic?.FinishedThemes.Where(x => x.Course?.Id == courseId).Count();
+
+            return (float)finishedCount / (float)allCount;
         }
 
         public UserStatisticsDto GetByName(string name)

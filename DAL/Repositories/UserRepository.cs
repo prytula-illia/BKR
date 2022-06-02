@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,101 +25,69 @@ namespace DAL.Repositories
             _configuration = configuration;
         }
 
-        public async Task<object> Login(LoginModel model)
+        public async Task<ApplicationUser> FindUserByName(string username)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-
-                return new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                };
-            }
-            throw new Exception("User is not registered");
+            return await _userManager.FindByNameAsync(username);
         }
 
-        public async Task Register(RegisterModel model)
+        public async Task<bool> IsCorrectPassword(ApplicationUser user, string password)
         {
-            var userExists = await _userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                throw new Exception("User already exists!");
-
-            ApplicationUser user = new()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            var errors = string.Join(", ", result.Errors.Select(x => x.Description));
-            if (!result.Succeeded)
-                throw new Exception("User creation failed! " + errors);
-
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.ExpiriencedUser))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.ExpiriencedUser));
-
-            if (await _roleManager.RoleExistsAsync(UserRoles.User))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
+            return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task RegisterAdmin(RegisterModel model)
+        public async Task<IList<string>> GetUserRoles(ApplicationUser user)
         {
-            var userExists = await _userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                throw new Exception("User already exists!");
+            return await _userManager.GetRolesAsync(user);
+        }
 
-            ApplicationUser user = new()
+        public object GetTokenAndExpiration(IList<string> userRoles, string username)
+        {
+            var authClaims = new List<Claim>
             {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                new Claim(ClaimTypes.Name, username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            var errors = string.Join(", ", result.Errors.Select(x => x.Description));
-            if (!result.Succeeded)
-                throw new Exception("User creation failed! " + errors);
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.ExpiriencedUser))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.ExpiriencedUser));
-
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+            foreach (var userRole in userRoles)
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            };
+        }
+
+        public async Task<IdentityResult> CreateUser(ApplicationUser user, string password)
+        {
+            return await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<IdentityResult> AddUserToRole(ApplicationUser user, string roleName)
+        {
+            return await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        public async Task<bool> DoRoleExist(string roleName)
+        {
+            return await _roleManager.RoleExistsAsync(roleName);
+        }
+
+        public async Task<IdentityResult> CreateRole(string roleName)
+        {
+            return await _roleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
 }

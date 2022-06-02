@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
- import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ThemeComponent } from './theme/theme.component';
 import { RegisterComponent } from './register/register.component';
 import { ThemeCreateComponent } from './theme/theme-create/theme-create.component';
@@ -21,6 +21,7 @@ import { ThemePracticeComponent } from './theme/theme-practice/theme-practice.co
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     UserstatisticComponent,
     ThemePracticeComponent,
     ErrorComponent,
+    ThemePracticeComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatDialogModule,
     MatFormFieldModule,
     NgbModule,
+    DragDropModule,
     RouterModule.forRoot([
       {path: 'main-page', component: MainpageComponent},
       {path: 'login-page', component: LoginComponent},
