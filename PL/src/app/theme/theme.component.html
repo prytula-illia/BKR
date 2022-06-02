@@ -2,7 +2,7 @@
     <div class="container mb-2">
     <h1 class="monceratFont">Themes</h1>
     <div class="row my-4">
-        <button class="btn btn-sm btn-block col-4 mybutton" style="width: 150px !important;" (click)="createTheme()">Create Theme</button>    
+        <button class="btn btn-sm btn-block col-4 mybutton" style="width: 150px !important;" (click)="createTheme()" *ngIf="loginService.getCurrentUserRole() !== 'user'">Create Theme</button>    
         <div class="form-group col">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search themes by name" #searchField>

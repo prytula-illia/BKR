@@ -67,7 +67,7 @@ export class ThemeLearnComponent implements OnInit {
     this.theme.studyingMaterials[this.currentMaterialIndex].comments.push(content);
       var material = this.theme.studyingMaterials[this.currentMaterialIndex];
 
-      this.studyingMaterialService.updateStudyingMaterial(material).subscribe(
+      this.studyingMaterialService.addCommentToMaterial(material.id, content).subscribe(
         (err) => {
           console.log(err);
         }

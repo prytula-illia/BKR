@@ -3,7 +3,9 @@ using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using DTOs;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BLL.Services
@@ -11,19 +13,37 @@ namespace BLL.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentsRepository _repository;
+        private readonly IStudyingMaterialsRepository _studyingMaterialsRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(ICommentsRepository repository, IMapper mapper)
+        public CommentService(ICommentsRepository repository, IStudyingMaterialsRepository studyingMaterialsRepository, IMapper mapper)
         {
             _repository = repository;
+            _studyingMaterialsRepository = studyingMaterialsRepository;
             _mapper = mapper;
         }
 
         public async Task<int> Create(CommentDto entity)
         {
             var comment = _mapper.Map<Comment>(entity);
-
             var result = await _repository.Create(comment);
+
+            return result.Id;
+        }
+
+        public async Task<int> Create(int studyingMaterialId, CommentDto entity)
+        {
+            var comment = _mapper.Map<Comment>(entity);
+            var material = await _studyingMaterialsRepository.GetWithNestedData(studyingMaterialId);
+            if(material is null)
+            {
+                throw new Exception($"There are no material with id ${studyingMaterialId}.");
+            }
+            material.Comments.Add(comment);
+            await _studyingMaterialsRepository.Update(material);
+
+            var updated = await _studyingMaterialsRepository.Get(studyingMaterialId);
+            var result = updated.Comments.FirstOrDefault(x => x.DateTime == entity.DateTime);
 
             return result.Id;
         }

@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         public async Task<int> Create(int id, [FromBody] CommentDto dto)
         {
             _logger.LogInformation($"Create course." + DateTime.Now);
-            return await _service.Create(dto);
+            return await _service.Create(id, dto);
         }
     }
 }
