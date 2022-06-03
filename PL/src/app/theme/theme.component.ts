@@ -34,8 +34,18 @@ export class ThemeComponent implements OnInit {
     this.router.navigate(['/theme-create-page'], { queryParams: { id: this.id } });
   }
 
-  updateTheme(content:any) {
+  updateTheme(content:any) {    
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Theme) => {
+      if(result.title.length < 5)
+      {
+        alert('Theme title should be atleast 5 characters long.');
+        return;
+      }
+      if(result.description.length < 10)
+      {
+        alert('Theme description should be atleast 10 characters long.');
+        return;
+      }
       this.service.updateTheme(result).subscribe({
         next: () => this.ngOnInit()
       });

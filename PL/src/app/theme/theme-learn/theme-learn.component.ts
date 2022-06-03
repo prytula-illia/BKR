@@ -63,11 +63,17 @@ export class ThemeLearnComponent implements OnInit {
     }
   }
 
-  addComment(content: UserComment) {
-    this.theme.studyingMaterials[this.currentMaterialIndex].comments.push(content);
+  addComment(comment: UserComment) {
+    if(comment.content.length < 4)
+    {
+      alert('Comment should be atleast 4 characters long.');
+      return;
+    }
+
+    this.theme.studyingMaterials[this.currentMaterialIndex].comments.push(comment);
       var material = this.theme.studyingMaterials[this.currentMaterialIndex];
 
-      this.studyingMaterialService.addCommentToMaterial(material.id, content).subscribe(
+      this.studyingMaterialService.addCommentToMaterial(material.id, comment).subscribe(
         (err) => {
           console.log(err);
         }

@@ -124,6 +124,24 @@ namespace BLL.UnitTest
             Assert.AreEqual(0, actual);
         }
 
+        [Test]
+        public async Task GetThemesFinishedRateForCourse_Does_Not_Throw_Error_If_No_Themes()
+        {
+            _statisticRepositoryMock.Setup(x => x.GetWithNestedData(It.IsAny<int>())).Returns(new UserStatistics()
+            {
+                FinishedThemes = new()
+            });
+
+            _courseRepositoryMock.Setup(x => x.GetCourseWithAllNestedData(It.IsAny<int>())).ReturnsAsync(new Course()
+            {
+                Themes = new()
+            });
+
+            InitService();
+
+            Assert.DoesNotThrowAsync(() => _service.GetThemesFinishedRateForCourse(1, 2));
+        }
+
         private void InitService()
         {
             _service = new StatisticService(_statisticRepositoryMock.Object,

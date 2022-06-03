@@ -6,6 +6,7 @@ import { Answer } from 'src/app/shared/models/answer.model';
 import { PracticalTask } from 'src/app/shared/models/practical-task.model';
 import { StudyingMaterial } from 'src/app/shared/models/studying-material.model';
 import { Theme } from 'src/app/shared/models/theme.model';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { ThemeService } from 'src/app/shared/services/theme.service';
 
 
@@ -22,7 +23,11 @@ class AnswerQuestion {
 })
 export class ThemeCreateComponent implements OnInit {
 
-  constructor(public service : ThemeService, private modalService: NgbModal, private route: ActivatedRoute, private router: Router) { }
+  constructor(public service : ThemeService,
+     private modalService: NgbModal,
+      private route: ActivatedRoute,
+      private loginService : LoginService,
+      private router: Router) { }
 
   private id : number;
   public answers : Answer[] = [new Answer(), new Answer()];
@@ -35,12 +40,19 @@ export class ThemeCreateComponent implements OnInit {
   }
 
   createTheme(form : NgForm) {
-    this.service.createTheme(this.id).subscribe({
-      next: () => {
-        this.service.formData = new Theme();
-        this.router.navigate(['/themes-page'], { queryParams: { id: this.id } });
-      }
-    });
+    try{
+      this.service.formData.createdByUser = this.loginService.getCurrentUserName();
+      this.service.createTheme(this.id).subscribe({
+        next: () => {
+          this.service.formData = new Theme();
+          this.router.navigate(['/themes-page'], { queryParams: { id: this.id } });
+        },
+      });
+    }
+    catch(ex)
+    {
+      alert(ex);
+    }
   }
 
   addMaterial(content : any) {
@@ -64,13 +76,22 @@ export class ThemeCreateComponent implements OnInit {
 
   addTask(content : any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : PracticalTask) => {
-      if(result.question.length < 5){
-        alert("Question should be atleast 5 characters long.")
+      if(result.question.length < 9){
+        alert("Question should be atleast 9 characters long.");
+        return;
       }
-      else 
+      if(result.answers.find(x => x.content.length < 1))
       {
-        this.service.addTaskToFormData(result);
+        alert("Answer should contain atleast 1 character.");
+        return;
       }
+      if(result.type === 1 && result.answers.length < 2)
+      {
+        alert("This task should contain atleast 2 answers.");
+        return;
+      }
+
+      this.service.addTaskToFormData(result);
     });
   }
 
@@ -125,7 +146,6 @@ export class ThemeCreateComponent implements OnInit {
 
   concatQuestions(start : string, arr : string[]) : string {
     var result = start;
-    alert(arr);
     arr.forEach(element => {
       result = this.concatQuestion(result, element);
     });

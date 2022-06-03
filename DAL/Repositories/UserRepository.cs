@@ -80,6 +80,11 @@ namespace DAL.Repositories
             return await _userManager.AddToRoleAsync(user, roleName);
         }
 
+        public async Task<IdentityResult> RemoveUserFromRole(ApplicationUser user, string roleName)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, roleName);
+        }
+
         public async Task<bool> DoRoleExist(string roleName)
         {
             return await _roleManager.RoleExistsAsync(roleName);

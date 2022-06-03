@@ -9,6 +9,9 @@
                 <button class="btn btn-sm btn-block mt-3 mybutton" (click)="updateStatistic()">Renew statistic</button>
             </div>
         </div>
+        <div class="text-center">
+            <button class="btn btn-sm btn-block mt-3 mybutton" (click)="grantRole(grantRoleModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">Grant role for user</button>
+        </div>
     </div>
     <div class="col mx-5 px-5">
         <div class="container px-5 pt-0">
@@ -20,3 +23,19 @@
         </div>
     </div>
 </div>
+
+<ng-template #grantRoleModal let-modal>
+    <div class="p-5">
+        <h4 class="modal-title monceratFont" id="modal-basic-title">Grant role for user</h4>
+        <div class="container mb-3">
+            <div class="form-group mt-3">
+                <label class="my-2">Username </label>
+                <input class="form-control" name="name" #userName>
+            </div>
+        </div>
+        <div class="my-3 row">
+            <button type="button" class="btn mx-4 btn-outline-dark col" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn mx-4 btn-block col mybutton" (click)="modal.close(userName.value)">Grant role</button>
+        </div>
+    </div>
+</ng-template>

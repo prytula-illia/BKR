@@ -4,14 +4,13 @@
         <h1 class="monceratFont">Courses</h1>
         <button class="btn btn-sm btn-block my-3 float-center mybutton" style="width: 150px !important;" (click)="createCourse(createCourseModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">Create course</button>    
     </div>    
-    <div class="container p-5 pb-0 mt-3 themeHolder" style="min-height: 40vh;" *ngFor="let c of service.courses">
+    <div class="container p-5 mt-3 themeHolder" style="min-height: 40vh;" *ngFor="let c of service.courses">
     <div class="my-2">
         <h3 class="monceratFont mb-4">{{c.name}}</h3>
         <p>{{c.description}}<p>
-        <div class="my-1" layoyt="row">
+        <div class="pb-5" layoyt="row">
             <button class="btn btn-sm btn-block my-3 mx-1 float-start mybutton" 
             style="width: 120px !important;" (click)="redirectToThemes(c.id)">Go to themes</button>
-            
             <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin'">
                 <img src="../../assets/deleteButton.jpg" style="height: 40px;" (click)="deleteCourse(deleteCourseModal)">
             </a>
@@ -44,7 +43,6 @@
                 </div>
             </div>
         </ng-template>
-
         <ng-template #deleteCourseModal let-modal>
             <div class="p-4">
                 <h4 class="monceratFont mb-3">Delete course</h4>

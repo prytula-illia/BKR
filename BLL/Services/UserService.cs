@@ -24,6 +24,22 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
+        public async Task GrantExpiriencedUserRole(string userName)
+        {
+            var user = await _repository.FindUserByName(userName);
+            if (user is null)
+            {
+                throw new Exception("There are no user with such name.");
+            }
+            var roles = await _repository.GetUserRoles(user);
+            if(!roles.Contains(UserRoles.User))
+            {
+                throw new Exception("Can not grant role to the user. Check if user is not granted already.");
+            }
+            await _repository.RemoveUserFromRole(user, UserRoles.User);
+            await _repository.AddUserToRole(user, UserRoles.ExpiriencedUser);
+        }
+
         public async Task<object> Login(LoginModelDto model)
         {
             var mapped = _mapper.Map<LoginModel>(model);

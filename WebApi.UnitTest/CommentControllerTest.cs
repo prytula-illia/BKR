@@ -34,7 +34,7 @@ namespace WebApi.UnitTest
         public async Task Create_If_Dto_Provided_Returns_Expected_Id()
         {
             int expectedId = 111;
-            _serviceMock.Setup(x => x.Create(_dto)).Returns(Task.FromResult(expectedId));
+            _serviceMock.Setup(x => x.Create(It.IsAny<int>(), _dto)).Returns(Task.FromResult(expectedId));
             
             var controller = new CommentController(_loggerMock.Object, _serviceMock.Object);
 

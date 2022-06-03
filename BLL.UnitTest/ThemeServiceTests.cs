@@ -73,6 +73,18 @@ namespace BLL.UnitTest
             Assert.IsEmpty(result);
         }
 
+        [Test]
+        public void Search_Returns_All_If_Find_Name_Is_Empty()
+        {
+            var listOfThemes = GetListOfThemes();
+
+            _themeRepositoryMock.Setup(x => x.GetAllThemesWithNestedData()).Returns(listOfThemes);
+            InitService();
+
+            var result = _service.SearchThemes("").ToList();
+            Assert.AreEqual(4, result.Count);
+        }
+
         private void InitService()
         {
             _service = new ThemeService(_themeRepositoryMock.Object,

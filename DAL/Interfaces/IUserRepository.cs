@@ -23,5 +23,6 @@ namespace DAL.Interfaces
 
         public Task<IdentityResult> AddUserToRole(ApplicationUser user, string roleName);
 
+        public Task<IdentityResult> RemoveUserFromRole(ApplicationUser user, string roleName);
     }
 }

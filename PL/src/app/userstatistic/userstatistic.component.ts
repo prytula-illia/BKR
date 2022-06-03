@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../shared/models/course.model';
 import { UserStatistic } from '../shared/models/user-statistic.model';
 import { CourseService } from '../shared/services/course.service';
@@ -13,7 +14,10 @@ import { UserService } from '../shared/services/user.service';
 })
 export class UserstatisticComponent implements OnInit {
 
-  constructor(public userService : UserService, public loginService : LoginService, public courseService : CourseService) 
+  constructor(public userService : UserService, 
+    private modalService: NgbModal,
+    public loginService : LoginService,
+    public courseService : CourseService) 
   {     
     this.userService.getUserStatistic().subscribe({
       next: (res) => {
@@ -39,6 +43,19 @@ export class UserstatisticComponent implements OnInit {
         this.userName = this.loginService.getCurrentUserName();
         this.userRole = this.loginService.getCurrentUserRole();
       }
+    });
+  }
+
+  grantRole(content : any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : string) => {
+      if(result.length < 1)
+      {
+        alert('Check that you entered correct username.');
+        return;
+      }
+      this.loginService.grantRole(result).subscribe({
+        next: () => this.ngOnInit()
+      });
     });
   }
 

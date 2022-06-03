@@ -18,6 +18,10 @@ export class UserService {
     this.updateStatistic();
   }
 
+  grantRole(userName : string) {
+    
+  }
+
   updateStatistic() {
     this.getUserStatistic().subscribe({
       next: (res) => {

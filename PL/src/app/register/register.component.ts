@@ -17,14 +17,21 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form : NgForm){
-    this.service.register().subscribe({
-      next: () => {
-        this.router.navigate(['/login-page'])
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-      }
-    );
+    try
+    {
+      this.service.register().subscribe({
+        next: () => {
+          this.router.navigate(['/login-page'])
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+        }
+      );
+    }
+    catch
+    {
+      alert("Please, enter correct data.");
+    }
   }
 }

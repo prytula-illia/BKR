@@ -67,5 +67,22 @@ namespace WebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPost]
+        [Route("grantRole/{username}")]
+        public async Task<IActionResult> GrantExpiriencedUserRole(string userName)
+        {
+            try
+            {
+                await _service.GrantExpiriencedUserRole(userName);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

@@ -13,10 +13,14 @@ export class LoginService {
   constructor(private http : HttpClient) { }
 
   formData : Login = new Login();
-  readonly baseUrl = 'https://localhost:44303/api/authorization/login';
+  readonly baseUrl = 'https://localhost:44303/api/authorization';
 
   postLogin() {
-    return this.http.post(this.baseUrl, this.formData);
+    return this.http.post(this.baseUrl + '/login', this.formData);
+  }
+  
+  grantRole(userName : string) {
+    return this.http.post(this.baseUrl + `/grantRole/${userName}`, null);
   }
 
   logout() {

@@ -5,6 +5,7 @@ export class Theme {
     id : number;
     title : string;
     description : string;
+    createdByUser : string;
     tasks : PracticalTask[];
     studyingMaterials : StudyingMaterial[];
     courseId : number;
@@ -13,6 +14,7 @@ export class Theme {
         this.id = 0;
         this.title = "";
         this.description = "";
+        this.createdByUser = "";
         this.tasks = [];
         this.studyingMaterials = [];
         this.courseId = 0;

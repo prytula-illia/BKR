@@ -63,34 +63,10 @@ body, html {
 
   .themeHolder { 
     background: #FFFFFF;
+    word-wrap: break-word;
     border: 1px solid rgba(0, 0, 0, 0.18);
     box-shadow: 0px 4px 65px rgba(0, 0, 0, 0.05);
     border-radius: 15px;
-  }
-
-  .example-list {
-    width: 1000px;
-    max-width: 100%;
-    border: solid 1px #ccc;
-    min-height: 60px;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .example-box {
-    padding: 20px 10px;
-    border-right: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
-    align-items: center;
-    box-sizing: border-box;
-    cursor: move;
-    background: white;
-    font-size: 14px;
-    flex-grow: 1;
-    flex-basis: 0;
   }
   
   .cdk-drag-preview {

@@ -15,16 +15,17 @@
           </div>
     </div>
    </div>    
-    <div class="container p-5 pb-0 mt-3 themeHolder" style="min-height: 30vh;"  *ngFor="let t of service.themes">
+    <div class="container p-5 mt-3 themeHolder" style="min-height: 30vh;"  *ngFor="let t of service.themes">
         <div class="my-2">
             <h3 class="monceratFont mb-4">{{t.title}} <span style="font-style: italic; color: green; font-size: small;" *ngIf="isThemeFinished(t.id)">finished</span></h3>
             <p>{{t.description}}<p>
-            <div class="my-3" layoyt="row">
+            <p class="float-right" style="font-style: italic; font-size: small;">Created by {{t.createdByUser}}</p>
+            <div class="pb-5" layoyt="row">
                 <button class="btn btn-sm btn-block my-3 mx-1 float-start mybutton" style="width: 120px;" (click)="learnTheme(t.id)">Learn theme!</button>
-                <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin'">
+                <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin' || t.createdByUser === loginService.getCurrentUserName()">
                     <img src="../../assets/deleteButton.jpg" style="height: 40px;" (click)="deleteTheme(deleteThemeModal)">
                 </a>
-                <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin'">
+                <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin' || t.createdByUser === loginService.getCurrentUserName()">
                     <img src="../../assets/updateButton.jpg" style="height: 40px;" (click)="updateTheme(updateThemeModal)">
                 </a>
             </div>        
@@ -48,6 +49,7 @@
                             id: t.id,
                             title: title.value,
                             description: description.value,
+                            createdByUser: t.createdByUser,
                             tasks : t.tasks,
                             studyingMaterials : t.studyingMaterials
                         })">Update</button>

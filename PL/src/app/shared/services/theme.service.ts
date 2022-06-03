@@ -37,6 +37,10 @@ export class ThemeService {
   }
 
   createTheme(id : number) {
+    if(this.formData.tasks.length < 1 || this.formData.studyingMaterials.length < 1)
+    {
+      throw "Theme should contain atleast 1 studying material and atleast 1 task";
+    }
     return this.http.post(this.baseUrl + `course/${id}/theme`, this.formData);
   }
 

@@ -106,6 +106,45 @@ namespace BLL.UnitTest
             Assert.ThrowsAsync<Exception>(() => _service.Register(new RegisterModelDto()));
         }
 
+        [Test]
+        public void GrantExpiriencedUserRole_If_Data_Is_Ok_Grants_Does_Not_Throw_An_Exception()
+        {
+            _userRepositoryMock.Setup(x => x.FindUserByName(It.IsAny<string>())).ReturnsAsync(new ApplicationUser());
+            _userRepositoryMock.Setup(x => x.GetUserRoles(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>()
+            {
+                DAL.Authentication.UserRoles.User
+            }); 
+            InitService();
+
+            Assert.DoesNotThrowAsync(() => _service.GrantExpiriencedUserRole("username"));
+        }
+
+        [Test]
+        public void GrantExpiriencedUserRole_If_No_User_Found_Throws_Exception()
+        {
+            _userRepositoryMock.Setup(x => x.FindUserByName(It.IsAny<string>())).ReturnsAsync((ApplicationUser)null);
+            _userRepositoryMock.Setup(x => x.GetUserRoles(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>()
+            {
+                DAL.Authentication.UserRoles.User
+            });
+            InitService();
+
+            Assert.ThrowsAsync<Exception>(() => _service.GrantExpiriencedUserRole("username"));
+        }
+
+        [Test]
+        public void GrantExpiriencedUserRole_If_User_Already_Has_Previlages_Throws_Exception()
+        {
+            _userRepositoryMock.Setup(x => x.FindUserByName(It.IsAny<string>())).ReturnsAsync(new ApplicationUser());
+            _userRepositoryMock.Setup(x => x.GetUserRoles(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>()
+            {
+                DAL.Authentication.UserRoles.ExpiriencedUser
+            });
+            InitService();
+
+            Assert.ThrowsAsync<Exception>(() => _service.GrantExpiriencedUserRole("username"));
+        }
+
         private void InitService()
         {
             _service = new UserService(_userRepositoryMock.Object, _statisticRepositoryMock.Object, _mapper);
