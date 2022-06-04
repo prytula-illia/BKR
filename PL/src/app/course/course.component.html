@@ -12,10 +12,10 @@
             <button class="btn btn-sm btn-block my-3 mx-1 float-start mybutton" 
             style="width: 120px !important;" (click)="redirectToThemes(c.id)">Go to themes</button>
             <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin'">
-                <img src="../../assets/deleteButton.jpg" style="height: 40px;" (click)="deleteCourse(deleteCourseModal)">
+                <img src="../../assets/deleteButton.jpg" style="height: 40px; cursor: pointer;" (click)="deleteCourse(deleteCourseModal)">
             </a>
             <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin'">
-                <img src="../../assets/updateButton.jpg" style="height: 40px;" (click)="updateCourse(updateCourseModal)">
+                <img src="../../assets/updateButton.jpg" style="height: 40px; cursor: pointer;" (click)="updateCourse(updateCourseModal)">
             </a>
         </div>       
         <ng-template #updateCourseModal let-modal>

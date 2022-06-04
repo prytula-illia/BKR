@@ -23,10 +23,10 @@
             <div class="pb-5" layoyt="row">
                 <button class="btn btn-sm btn-block my-3 mx-1 float-start mybutton" style="width: 120px;" (click)="learnTheme(t.id)">Learn theme!</button>
                 <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin' || t.createdByUser === loginService.getCurrentUserName()">
-                    <img src="../../assets/deleteButton.jpg" style="height: 40px;" (click)="deleteTheme(deleteThemeModal)">
+                    <img src="../../assets/deleteButton.jpg" style="height: 40px; cursor: pointer;" (click)="deleteTheme(deleteThemeModal)">
                 </a>
                 <a class="my-3 mx-1 float-end" *ngIf="loginService.getCurrentUserRole() === 'admin' || t.createdByUser === loginService.getCurrentUserName()">
-                    <img src="../../assets/updateButton.jpg" style="height: 40px;" (click)="updateTheme(updateThemeModal)">
+                    <img src="../../assets/updateButton.jpg" style="height: 40px; cursor: pointer;" (click)="updateTheme(updateThemeModal)">
                 </a>
             </div>        
             <ng-template #updateThemeModal let-modal>
