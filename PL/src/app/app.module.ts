@@ -22,6 +22,7 @@ import { AuthInterceptor } from './shared/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CompilerComponent } from './compiler/compiler.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     UserstatisticComponent,
     ThemePracticeComponent,
     ErrorComponent,
-    ThemePracticeComponent
+    ThemePracticeComponent,
+    CompilerComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       {path: 'theme-learn-page', component: ThemeLearnComponent},
       {path: 'theme-practice-page', component: ThemePracticeComponent},
       {path: 'account-page', component: UserstatisticComponent},
+      {path: 'compiler-page', component: CompilerComponent},
       {path: '', redirectTo: '/main-page', pathMatch: 'full'},
       {path: '**', component: ErrorComponent},
     ]),

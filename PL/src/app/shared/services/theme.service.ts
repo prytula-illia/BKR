@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { PracticalTask } from '../models/practical-task.model';
 import { StudyingMaterial } from '../models/studying-material.model';
 import { Theme } from '../models/theme.model';
+import Swal from 'sweetalert2';
+import { ThemeRating } from '../models/theme-rating.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +16,26 @@ export class ThemeService {
 
   public formData : Theme = new Theme();
   public themes : Theme[];
+  public ratings : number[] = [];
   public courseId : number;
   readonly baseUrl = 'https://localhost:44303/api/';
 
   getAllThemes(id : number) {
+    Swal.fire('', 'Loading...');
+    Swal.showLoading();
     this.http.get<Theme[]>(this.baseUrl + `course/${id}/theme`)
       .subscribe({
         next: (res : Theme[]) => { 
           this.courseId = id;
           this.themes = res;
+          Swal.close();
+          this.ratings = [];
+          res.forEach((t) => {
+            var res = t.themeRatings.map(x => x.rating).reduce((a,b) => a + b, 0) / t.themeRatings.length;
+            this.ratings.push(res);
+            }
+          )
+        
         },
         error: (err) => {console.log(err);}
       }); 
@@ -46,6 +59,10 @@ export class ThemeService {
 
   updateTheme(theme : Theme) {
     return this.http.put(this.baseUrl + "theme/", theme);
+  }
+
+  updateThemeStatistic(rating : ThemeRating) {
+    return this.http.put(this.baseUrl + "theme/updateRating/", rating);
   }
 
   deleteThemeById(id : number) {

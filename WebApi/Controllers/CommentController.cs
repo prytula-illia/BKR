@@ -28,5 +28,13 @@ namespace WebApi.Controllers
             _logger.LogInformation($"Create course." + DateTime.Now);
             return await _service.Create(id, dto);
         }
+
+        [HttpPut]
+        [Route("api/comment/updateRating")]
+        public async Task UpdateRating([FromBody] CommentRatingsDto dto)
+        {
+            _logger.LogInformation($"Update theme." + DateTime.Now);
+            await _service.UpdateRating(dto);
+        }
     }
 }

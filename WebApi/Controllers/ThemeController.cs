@@ -61,6 +61,14 @@ namespace WebApi.Controllers
             await _service.Update(dto);
         }
 
+        [HttpPut]
+        [Route("api/theme/updateRating")]
+        public async Task UpdateRating([FromBody] ThemeRatingDto dto)
+        {
+            _logger.LogInformation($"Update theme." + DateTime.Now);
+            await _service.UpdateRating(dto);
+        }
+
         [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete]
         [Route("api/theme/{id}")]

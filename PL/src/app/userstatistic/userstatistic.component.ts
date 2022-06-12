@@ -5,6 +5,7 @@ import { UserStatistic } from '../shared/models/user-statistic.model';
 import { CourseService } from '../shared/services/course.service';
 import { LoginService } from '../shared/services/login.service';
 import { UserService } from '../shared/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-userstatistic',
@@ -27,6 +28,7 @@ export class UserstatisticComponent implements OnInit {
         this.userRole = this.loginService.getCurrentUserRole();
       }
     });
+    this.getAllUserStatistic();
   }
 
   userName : string;
@@ -34,27 +36,58 @@ export class UserstatisticComponent implements OnInit {
   statistic : UserStatistic = new UserStatistic();
   coursesStatistic : [courseName : string, themesRate : number, score : number][] = [];
   finishedCoursesCount : number;
+  usersStatistic : UserStatistic[];
 
   ngOnInit(): void {
+    Swal.fire('', 'Loading...');
+    Swal.showLoading();
     this.userService.getUserStatistic().subscribe({
       next: (res) => {
         this.statistic = res as UserStatistic;
         this.updateStatistic();
         this.userName = this.loginService.getCurrentUserName();
         this.userRole = this.loginService.getCurrentUserRole();
+        Swal.close();
       }
     });
   }
 
+  getAllUserStatistic() {
+    this.userService.getAllUserStatistic().subscribe({
+      next: (res : UserStatistic[]) => {
+        this.usersStatistic = res;
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
   grantRole(content : any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : string) => {
+    this.modalService.open(content, {size: 'lg'}).result.then((result : string) => {
       if(result.length < 1)
       {
-        alert('Check that you entered correct username.');
+        Swal.fire({
+          position: 'top',
+          text:  'Check if you entered correct username.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
         return;
       }
+        
+      Swal.fire('', 'Loading...');
+      Swal.showLoading();
       this.loginService.grantRole(result).subscribe({
-        next: () => this.ngOnInit()
+        next: () => {
+          Swal.close();
+          Swal.fire({
+            position: 'top',
+            title: 'Success',
+            text:  'User succesefully granted by ExpiriencedUser role.',
+            icon: 'success',
+            confirmButtonColor: '#4BB5AB',
+          });
+          this.ngOnInit()
+        }
       });
     });
   }

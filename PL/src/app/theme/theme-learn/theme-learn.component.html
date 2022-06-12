@@ -14,11 +14,27 @@
         </div>
         <div class="container mt-5">
             <h4 class="monceratFont">Comments:</h4>
+            <div class="form-group col">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search comments by content" #searchField>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-block mybutton" 
+                        style="border-top-left-radius: 0%; border-bottom-left-radius: 0%; width: 100px !important; height: auto;" 
+                        (click)="searchComments(searchField.value)">Search</button>
+                    </span>
+                </div>
+            </div>
             <div *ngFor="let comment of material.comments">
                 <div class="themeHolder my-3 p-4">
                     <h6 class="monceratFont mt-3">{{comment.userName}}</h6>
                     <p class="my-5">{{comment.content}}</p>
-                    <p class="my-2" style="text-align: right; font-size:14px">{{getBeautifulDate(comment.dateTime)}}</p>
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <button class="mx-1 btn btn-block" (click)="likeComment(comment)">👍🏻<br>{{calculateLikes(comment)}}</button>
+                            <button class="mx-1 btn btn-block" (click)="dislikeComment(comment)">👎🏻<br>{{calculateDislikes(comment)}}</button>
+                        </div>
+                        <p class="col-4 mt-4" style="font-size:14px">{{getBeautifulDate(comment.dateTime)}}</p>
+                    </div>
                 </div>
             </div>
             <div class="form-group mt-3">
@@ -30,7 +46,8 @@
                     id: 0,
                     userName: getUserName(),
                     content: comment.value,
-                    dateTime: getCurrentDate()
+                    dateTime: getCurrentDate(),
+                    commentRatings: []
                 })">Add comment</button>
             </div>
         </div>

@@ -55,7 +55,7 @@ namespace BLL.Services
 
         public async Task<CommentDto> Get(int id)
         {
-            var comment = await _repository.Get(id);
+            var comment = await _repository.GetWithNestedData(id);
 
             return _mapper.Map<CommentDto>(comment);
         }
@@ -70,6 +70,34 @@ namespace BLL.Services
         public async Task Update(CommentDto entity)
         {
             var comment = _mapper.Map<Comment>(entity);
+
+            await _repository.Update(comment);
+        }
+
+        public async Task UpdateRating(CommentRatingsDto dto)
+        {
+            var comment = await _repository.GetWithNestedData(dto.CommentId);
+            if (comment is null)
+                return;
+
+            var entity = comment.CommentRatings.FirstOrDefault(x => x.Username == dto.Username);
+
+            var mapped = _mapper.Map<CommentRating>(dto);
+            if (entity is null)
+            {
+                comment.CommentRatings.Add(mapped);
+            }
+            else
+            {
+                for (int i = 0; i < comment.CommentRatings.Count; ++i)
+                {
+                    if (comment.CommentRatings[i].Username == dto.Username)
+                    {
+                        comment.CommentRatings[i] = mapped;
+                        break;
+                    }
+                }
+            }
 
             await _repository.Update(comment);
         }

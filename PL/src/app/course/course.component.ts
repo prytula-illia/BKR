@@ -4,6 +4,7 @@ import { Course } from '../shared/models/course.model';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { LoginService } from '../shared/services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-course',
@@ -22,10 +23,20 @@ export class CourseComponent implements OnInit {
   createCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
       if(result.name.length < 5){
-        alert("Name should be atleast 5 characters.")
+        Swal.fire({
+          position: 'top',
+          text: "Name should be atleast 5 characters.",
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        })
       }
       else if(result.description.length < 10) {
-        alert("Description should be atleast 10 characters.")
+        Swal.fire({
+          position: 'top',
+          text: "Description should be atleast 10 characters.",
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        })
       }
       else
       {
@@ -39,10 +50,20 @@ export class CourseComponent implements OnInit {
   updateCourse(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Course) => {
       if(result.name.length < 5){
-        alert("Name should be atleast 5 characters.")
+        Swal.fire({
+          position: 'top',
+          text: "Name should be atleast 5 characters.",
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        })
       }
       else if(result.description.length < 10) {
-        alert("Description should be atleast 10 characters.")
+        Swal.fire({
+          position: 'top',
+          text: "Description should be atleast 10 characters.",
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        })
       }
       else
       {
@@ -53,12 +74,30 @@ export class CourseComponent implements OnInit {
     });
   }
   
-  deleteCourse(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : number) => {
-      this.service.deleteCourseById(result).subscribe({
-        next: () => this.ngOnInit()
-      });
-    });
+  deleteCourse(id : number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn mx-3 btn-danger',
+        cancelButton: 'btn mx-3 btn-block btn-outline-dark'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      position: 'top',
+      text: 'Are you sure that you want to delete course?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.deleteCourseById(id).subscribe({
+          next: () => this.ngOnInit()
+        });
+      }
+    })
   }
   
   redirectToThemes(id : number) {

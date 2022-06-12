@@ -11,6 +11,7 @@ namespace DAL.Entities
         public string UserName { get; set; }
         public string Content { get; set; }
         public DateTime DateTime { get; set; }
-        public StudyingMaterials StudyingMaterial {get;set;}
+        public StudyingMaterials StudyingMaterial {get;set; }
+        public List<CommentRating> CommentRatings { get; set; }
     }
 }

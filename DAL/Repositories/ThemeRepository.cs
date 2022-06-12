@@ -21,6 +21,8 @@ namespace DAL.Repositories
                     .ThenInclude(x => x.Answers)
                 .Include(x => x.StudyingMaterials)
                     .ThenInclude(x => x.Comments)
+                        .ThenInclude(x => x.CommentRatings)
+                .Include(x => x.ThemeRatings)
                 .AsSplitQuery()
                 .ToList();
         }
@@ -32,7 +34,9 @@ namespace DAL.Repositories
                     .ThenInclude(x => x.Answers)
                 .Include(x => x.StudyingMaterials)
                     .ThenInclude(x => x.Comments)
+                        .ThenInclude(x => x.CommentRatings)
                 .Include(x => x.Course)
+                .Include(x => x.ThemeRatings)
                 .AsSplitQuery()
                 .ToListAsync();
 

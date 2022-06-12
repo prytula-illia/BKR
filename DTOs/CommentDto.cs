@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DTOs
 {
@@ -8,5 +9,6 @@ namespace DTOs
         public string UserName { get; set; }
         public string Content { get; set; }
         public DateTime DateTime { get; set; }
+        public List<CommentRatingsDto> CommentRatings { get; set; }
     }
 }

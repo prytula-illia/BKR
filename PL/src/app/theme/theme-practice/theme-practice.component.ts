@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PracticalTask } from 'src/app/shared/models/practical-task.model';
 import { Theme } from 'src/app/shared/models/theme.model';
@@ -6,6 +6,8 @@ import { LoginService } from 'src/app/shared/services/login.service';
 import { ThemeService } from 'src/app/shared/services/theme.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import Swal from 'sweetalert2';
+import { ThemeRating } from 'src/app/shared/models/theme-rating.model';
 
 @Component({
   selector: 'app-theme-practice',
@@ -14,14 +16,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   ]
 })
 export class ThemePracticeComponent implements OnInit {
-  timePeriods = [
-    'Bronze age',
-    'Iron age',
-    'Middle ages',
-    'Early modern period',
-    'Long nineteenth century',
-  ];
-
   constructor(
     public service : ThemeService,
     private route: ActivatedRoute, 
@@ -34,8 +28,14 @@ export class ThemePracticeComponent implements OnInit {
   task : PracticalTask = new PracticalTask();
   theme : Theme = new Theme();
   probableAnswers : string[];
+  themeRate : number;
+
+  @ViewChild('tRate',{static: false})
+  tRate: ElementRef;
 
   ngOnInit(): void {
+    Swal.fire('', 'Loading...');
+    Swal.showLoading();
     this.route.queryParams.subscribe(params => {
       var themeId = params['id'];
       this.service.getTheme(themeId).subscribe({
@@ -44,7 +44,7 @@ export class ThemePracticeComponent implements OnInit {
           this.theme = theme;
           this.task = theme.tasks[0];
           this.probableAnswers = this.task.answers.map(x => x.content);
-          console.log(this.task.question);
+          Swal.close();
         }
       });
     });
@@ -60,22 +60,47 @@ export class ThemePracticeComponent implements OnInit {
   
   getNextTask(){
     if(!this.checkIfTaskIsCorrect()){
-      alert('Task is incorrect. Try again.');
+      Swal.fire({
+        position: 'top',
+        title: 'Oops!',
+        text:  'Your answer is incorrect, try again.',
+        icon: 'error',
+        confirmButtonColor: '#4BB5AB',
+      });
       return;
     }
-    else
-    {
-      alert('good job! Youre right!')
-    }
+     
     if(this.currentTaskIndex + 2 > this.theme.tasks.length) {
-      alert('Good job student! Your statistic would be updated. You finished theme!'); 
-      this.userService.finishTheme(this.theme).subscribe({
-        next: () => {
-          this.router.navigate(['/themes-page'], { queryParams: { id: this.theme.courseId } });
-        }
+      Swal.fire({
+        position: 'top',
+        title: 'Good job student!',
+        html: this.tRate.nativeElement,
+        confirmButtonColor: '#4BB5AB',
+      }).then(() => {
+        this.userService.finishTheme(this.theme).subscribe({
+          next: () => {
+            var rating : ThemeRating = {
+              username : this.loginService.getCurrentUserName(),
+              rating : this.themeRate,
+              themeId : this.theme.id
+            };
+            this.service.updateThemeStatistic(rating).subscribe({
+                next: () => this.router.navigate(['/themes-page'], { queryParams: { id: this.theme.courseId } }),
+                error: (err) => { console.log(err) } 
+              });
+          }
+        });
       });
     }
     else {
+      Swal.fire({
+        position: 'top',
+        title: 'Good job student!',
+        text:  'Your answer is correct, keep it up!',
+        icon: 'success',
+        confirmButtonColor: '#4BB5AB',
+      });
+
       this.currentTaskIndex++;
       this.task = this.theme.tasks[this.currentTaskIndex];
       this.probableAnswers = this.task.answers.map(x => x.content);

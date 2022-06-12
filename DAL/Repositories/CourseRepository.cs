@@ -23,6 +23,9 @@ namespace DAL.Repositories
                 .Include(x => x.Themes)
                     .ThenInclude(x => x.StudyingMaterials)
                         .ThenInclude(x => x.Comments)
+                            .ThenInclude(x => x.CommentRatings)
+                .Include(x => x.Themes)
+                    .ThenInclude(x => x.ThemeRatings)
                 .AsSplitQuery();
         }
 
@@ -35,6 +38,9 @@ namespace DAL.Repositories
                 .Include(x => x.Themes)
                     .ThenInclude(x => x.StudyingMaterials)
                         .ThenInclude(x => x.Comments)
+                            .ThenInclude(x => x.CommentRatings)
+                .Include(x => x.Themes)
+                    .ThenInclude(x => x.ThemeRatings)
                 .AsSplitQuery()
                 .FirstOrDefaultAsync();
         }

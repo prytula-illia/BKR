@@ -9,8 +9,9 @@
                 <button class="btn btn-sm btn-block mt-3 mybutton" (click)="updateStatistic()">Renew statistic</button>
             </div>
         </div>
+
         <div class="text-center">
-            <button class="btn btn-sm btn-block mt-3 mybutton" (click)="grantRole(grantRoleModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">Grant role for user</button>
+            <button class="btn btn-sm btn-block mt-3 mybutton" (click)="grantRole(grantRoleModal)" *ngIf="loginService.getCurrentUserRole() === 'admin'">View users statistic</button>
         </div>
     </div>
     <div class="col mx-5 px-5">
@@ -26,16 +27,28 @@
 
 <ng-template #grantRoleModal let-modal>
     <div class="p-5">
-        <h4 class="modal-title monceratFont" id="modal-basic-title">Grant role for user</h4>
-        <div class="container mb-3">
-            <div class="form-group mt-3">
-                <label class="my-2">Username </label>
-                <input class="form-control" name="name" #userName>
-            </div>
-        </div>
-        <div class="my-3 row">
-            <button type="button" class="btn mx-4 btn-outline-dark col" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" class="btn mx-4 btn-block col mybutton" (click)="modal.close(userName.value)">Grant role</button>
-        </div>
+        <h4 class="monceratFont mb-4">Users statistic</h4>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="mr-2">Login</th>
+                <th>Rating score</th>
+                <th>Finished courses</th>
+                <th>Finished themes</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of usersStatistic;">
+                <td class="mr-2">{{s.userLogin}}</td>
+                <td>{{s.rating}}</td>
+                <td>{{s.finishedCourses.length}}</td>
+                <td>{{s.finishedThemes.length}}</td>
+                <td>
+                  <button type="button" class="btn btn-block col mybutton" style="width: 5vw;" (click)="modal.close(s.userLogin)">Grant expirienced user</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
     </div>
 </ng-template>

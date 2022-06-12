@@ -2,6 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -27,7 +28,13 @@ export class AuthInterceptor implements HttpInterceptor {
                   (err) => {
                     if (err instanceof HttpErrorResponse) {
                       if (err.status == 400) {
-                        alert('Bad Request: ' + err.error.title);
+                        Swal.fire({
+                          position: 'top',
+                          title: 'Bad request',
+                          text:  err.error.title,
+                          icon: 'error',
+                          confirmButtonColor: '#4BB5AB',
+                        })
                       }
                       else if (err.status == 401) {
                         this.router.navigate(['/login-page']);
@@ -36,7 +43,13 @@ export class AuthInterceptor implements HttpInterceptor {
                         this.router.navigate(['/main-page']);
                       }
                       else {
-                        alert(err.error);
+                        Swal.fire({
+                          position: 'top',
+                          title: 'Error',
+                          text:  err.error,
+                          icon: 'error',
+                          confirmButtonColor: '#4BB5AB',
+                        })
                       }
                     }
                   }

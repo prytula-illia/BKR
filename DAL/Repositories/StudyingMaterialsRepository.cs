@@ -16,6 +16,7 @@ namespace DAL.Repositories
         {
             var result = await _context.StudyingMaterials.Where(x => x.Id == studyingMaterialId)
                  .Include(x => x.Comments)
+                    .ThenInclude(x => x.CommentRatings)
                  .AsSplitQuery()
                  .ToListAsync();
 

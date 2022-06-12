@@ -10,6 +10,7 @@ namespace DAL.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string CreatedByUser { get; set; }
+        public List<ThemeRating> ThemeRatings { get; set; }
         public List<StudyingMaterials> StudyingMaterials { get; set; }
         public List<PracticalTask> Tasks { get; set; }
         public Course Course { get; set; }

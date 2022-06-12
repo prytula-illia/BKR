@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using DTOs;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BLL.Services
@@ -12,12 +13,17 @@ namespace BLL.Services
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IThemeRepository _themeRepository;
+        private readonly IStatisticRepository _statisticRepository;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository repository, IThemeRepository themeRepository, IMapper mapper)
+        public CourseService(ICourseRepository repository, 
+            IThemeRepository themeRepository,
+            IStatisticRepository statisticRepository,
+            IMapper mapper)
         {
             _courseRepository = repository;
             _themeRepository = themeRepository;
+            _statisticRepository = statisticRepository;
             _mapper = mapper;
         }
 
@@ -32,11 +38,14 @@ namespace BLL.Services
 
         public async Task Delete(int id)
         {
-            var course = await Get(id);
-            foreach(var t in course.Themes)
+            var course = await _courseRepository.GetCourseWithAllNestedData(id);
+            var themeIds = course.Themes.Select(x => x.Id).ToList();
+
+            foreach (var t in themeIds)
             {
-                await _themeRepository.Delete(t.Id);
+                await _themeRepository.Delete(t);
             }
+
             await _courseRepository.Delete(id);
         }
 

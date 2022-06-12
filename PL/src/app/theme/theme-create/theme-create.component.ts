@@ -8,7 +8,7 @@ import { StudyingMaterial } from 'src/app/shared/models/studying-material.model'
 import { Theme } from 'src/app/shared/models/theme.model';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { ThemeService } from 'src/app/shared/services/theme.service';
-
+import Swal from 'sweetalert2';
 
 class AnswerQuestion {
   answer : string = '';
@@ -51,17 +51,32 @@ export class ThemeCreateComponent implements OnInit {
     }
     catch(ex)
     {
-      alert(ex);
+      Swal.fire({
+        position: 'top',
+        text:  ex.message,
+        icon: 'warning',
+        confirmButtonColor: '#4BB5AB',
+      });
     }
   }
 
   addMaterial(content : any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : StudyingMaterial) => {
       if(result.title.length < 5){
-        alert("Title should be atleast 5 characters long.")
+        Swal.fire({
+          position: 'top',
+          text:  'Title should be atleast 5 characters long.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
       }
       else if(result.content.length < 10){
-        alert("Content should be atleast 10 characters long.")
+        Swal.fire({
+          position: 'top',
+          text:  'Content should be atleast 10 characters.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
       }
       else {
         this.service.addMaterialToFormData(result);
@@ -77,17 +92,31 @@ export class ThemeCreateComponent implements OnInit {
   addTask(content : any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : PracticalTask) => {
       if(result.question.length < 9){
-        alert("Question should be atleast 9 characters long.");
-        return;
+        Swal.fire({
+          position: 'top',
+          text:  'Question should be atleast 9 characters long.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
       }
       if(result.answers.find(x => x.content.length < 1))
       {
-        alert("Answer should contain atleast 1 character.");
+        Swal.fire({
+          position: 'top',
+          text:  'Answer should contain atleast 1 character.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
         return;
       }
       if(result.type === 1 && result.answers.length < 2)
       {
-        alert("This task should contain atleast 2 answers.");
+        Swal.fire({
+          position: 'top',
+          text:  'This task should contain atleast 2 answers.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
         return;
       }
 

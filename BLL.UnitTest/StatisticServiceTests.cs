@@ -125,7 +125,7 @@ namespace BLL.UnitTest
         }
 
         [Test]
-        public async Task GetThemesFinishedRateForCourse_Does_Not_Throw_Error_If_No_Themes()
+        public void GetThemesFinishedRateForCourse_Does_Not_Throw_Error_If_No_Themes()
         {
             _statisticRepositoryMock.Setup(x => x.GetWithNestedData(It.IsAny<int>())).Returns(new UserStatistics()
             {

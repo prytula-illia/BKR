@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Course } from '../models/course.model';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,18 @@ export class CourseService {
   courses : Course[];
 
   getAllCourses() {
+    Swal.fire('', 'Loading...');
+    Swal.showLoading();
     this.http.get<Course[]>(this.baseUrl)
       .subscribe({
-        next: (res) => { this.courses = res as Course[]},
-        error: (err) => {console.log(err);}
+        next: (res) => { 
+          this.courses = res as Course[];
+          Swal.close();
+        },
+        error: (err) => {
+          console.log(err);
+          Swal.close();
+        }
       }); 
   }
 

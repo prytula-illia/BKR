@@ -47,4 +47,10 @@
             <button type="button" class="btn btn-sm btn-block m-3 mybutton" (click)="getNextTask()">Answer</button>
         </div>
     </div>
+    <div style="display: none;">
+        <div #tRate>
+            <p>Please, rate '{{theme.title}}'</p>
+            <ngb-rating style="font-size: 50px;" [(rate)]="themeRate" [max]="5"></ngb-rating>
+        </div>
+    </div>
 </div>

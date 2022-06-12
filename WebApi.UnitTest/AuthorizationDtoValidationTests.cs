@@ -18,7 +18,7 @@ namespace WebApi.UnitTest
         }
 
         [Test]
-        public async Task LoginModel_If_Password_Not_Provided_Validation_Fails()
+        public void LoginModel_If_Password_Not_Provided_Validation_Fails()
         {
             var result = GetValidationErrors(new LoginModelDto()
             {
@@ -30,7 +30,7 @@ namespace WebApi.UnitTest
         }
 
         [Test]
-        public async Task LoginModel_If_Username_Not_Provided_Validation_Fails()
+        public void LoginModel_If_Username_Not_Provided_Validation_Fails()
         {
             var result = GetValidationErrors(new LoginModelDto()
             {
@@ -42,7 +42,7 @@ namespace WebApi.UnitTest
         }
 
         [Test]
-        public async Task RegisterModel_If_Password_Not_Provided_Validation_Fails()
+        public void RegisterModel_If_Password_Not_Provided_Validation_Fails()
         {
             var result = GetValidationErrors(new RegisterModelDto()
             {
@@ -55,7 +55,7 @@ namespace WebApi.UnitTest
         }
 
         [Test]
-        public async Task RegisterModel_If_Username_Not_Provided_Validation_Fails()
+        public void RegisterModel_If_Username_Not_Provided_Validation_Fails()
         {
             var result = GetValidationErrors(new RegisterModelDto()
             {
@@ -68,7 +68,7 @@ namespace WebApi.UnitTest
         }
 
         [Test]
-        public async Task RegisterModel_If_Email_Not_Provided_Validation_Fails()
+        public void RegisterModel_If_Email_Not_Provided_Validation_Fails()
         {
             var result = GetValidationErrors(new RegisterModelDto()
             {

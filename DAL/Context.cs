@@ -22,6 +22,7 @@ namespace DAL
         public DbSet<PracticalTask> PracticalTasks { get; set; }
         public DbSet<StudyingMaterials> StudyingMaterials { get; set; }
         public DbSet<Theme> Themes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<UserStatistics> UserStatistics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +36,10 @@ namespace DAL
                 .HasMany(c => c.Themes)
                 .WithOne(t => t.Course);
 
+            modelBuilder.Entity<Comment>()
+                .HasMany(t => t.CommentRatings)
+                .WithOne(t => t.Comment);
+
             modelBuilder.Entity<Theme>()
                 .HasMany(t => t.Tasks)
                 .WithOne(t => t.Theme);
@@ -42,6 +47,10 @@ namespace DAL
             modelBuilder.Entity<Theme>()
                 .HasMany(t => t.StudyingMaterials)
                 .WithOne(sm => sm.Theme);
+
+            modelBuilder.Entity<Theme>()
+                .HasMany(t => t.ThemeRatings)
+                .WithOne(t => t.Theme);
 
             modelBuilder.Entity<StudyingMaterials>()
                 .HasMany(sm => sm.Comments)

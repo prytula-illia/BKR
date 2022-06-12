@@ -5,6 +5,7 @@ import { Theme } from '../shared/models/theme.model';
 import { LoginService } from '../shared/services/login.service';
 import { ThemeService } from '../shared/services/theme.service';
 import { UserService } from '../shared/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-theme',
@@ -20,9 +21,10 @@ export class ThemeComponent implements OnInit {
     private modalService: NgbModal, 
     private route: ActivatedRoute, 
     private router: Router,
-    private userService : UserService) { }
+    private userService : UserService) {}
   
   private id : number;
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
@@ -38,12 +40,22 @@ export class ThemeComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : Theme) => {
       if(result.title.length < 5)
       {
-        alert('Theme title should be atleast 5 characters long.');
+        Swal.fire({
+          position: 'top',
+          text:  'Theme title should be atleast 5 characters long.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
         return;
       }
       if(result.description.length < 10)
       {
-        alert('Theme description should be atleast 10 characters long.');
+        Swal.fire({
+          position: 'top',
+          text:  'Theme description should be atleast 10 characters long.',
+          icon: 'warning',
+          confirmButtonColor: '#4BB5AB',
+        });
         return;
       }
       this.service.updateTheme(result).subscribe({
@@ -52,12 +64,30 @@ export class ThemeComponent implements OnInit {
     });
   }
   
-  deleteTheme(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result : number) => {
-      this.service.deleteThemeById(result).subscribe({
-        next: () => this.ngOnInit()
-      });
-    });
+  deleteTheme(id : number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn mx-3 btn-danger',
+        cancelButton: 'btn mx-3 btn-block btn-outline-dark'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      position: 'top',
+      text: 'Are you sure that you want to delete theme?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.deleteThemeById(id).subscribe({
+          next: () => this.ngOnInit()
+        });
+      }
+    })
   } 
   
   searchThemes(name : string) {

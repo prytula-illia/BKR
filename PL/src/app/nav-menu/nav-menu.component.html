@@ -8,6 +8,7 @@
       <div class="navbar-nav float-lefto">
         <a class="nav-item nav-link robotoFont" href="/main-page" style="margin-left: 3vw; margin-right: 1vw; color: #FFFFFF;">Main page</a>
         <a class="nav-item nav-link robotoFont" href="/course-page" style="color: #FFFFFF;">Courses</a>
+        <a class="nav-item nav-link robotoFont" href="/compiler-page" style="color: #FFFFFF; margin-left: 1vw;" *ngIf="loginService.isLoggedIn()">Playground</a>
       </div>
       <div class="navbar-nav mx-3" style="right: 5vw !important;">
         <a class="nav-item nav-link" href="/account-page" *ngIf="loginService.isLoggedIn()">

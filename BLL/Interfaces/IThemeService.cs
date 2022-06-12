@@ -9,5 +9,6 @@ namespace BLL.Interfaces
         public IEnumerable<ThemeDto> SearchThemes(string themeName);
         public Task<IEnumerable<ThemeDto>> GetCourseThemes(int id);
         public Task<int> CreateThemeForCourse(ThemeDto dto, int courseId);
+        Task UpdateRating(ThemeRatingDto dto);
     }
 }

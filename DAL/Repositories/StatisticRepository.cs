@@ -1,6 +1,7 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,16 @@ namespace DAL.Repositories
     {
         public StatisticRepository(Context context) : base(context)
         {
+        }
+
+        public IEnumerable<UserStatistics> GetAllStatisticsWithNested()
+        {
+            return _context.UserStatistics
+                .Include(x => x.FinishedCourses)
+                    .ThenInclude(x => x.Themes)
+                .Include(x => x.FinishedThemes)
+                    .ThenInclude(x => x.Course)
+                .AsSplitQuery();
         }
 
         public UserStatistics GetByName(string name)

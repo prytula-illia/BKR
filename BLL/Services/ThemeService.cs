@@ -98,5 +98,35 @@ namespace BLL.Services
             var result = await _themeRepository.Create(theme);
             return result.Id;
         }
+
+        public async Task UpdateRating(ThemeRatingDto dto)
+        {
+            var theme = await _themeRepository.GetWithNestedData(dto.ThemeId);
+            if (theme is null)
+                return;
+
+            var entity = theme.ThemeRatings?.FirstOrDefault(x => x.Username == dto.Username);
+
+            var mapped = _mapper.Map<ThemeRating>(dto);
+            if (entity is null)
+            {
+                if (theme.ThemeRatings is null)
+                    theme.ThemeRatings = new();
+                theme.ThemeRatings.Add(mapped);
+            }
+            else
+            {
+                for(int i = 0; i < theme.ThemeRatings.Count; ++i)
+                {
+                    if(theme.ThemeRatings[i].Username == dto.Username)
+                    {
+                        theme.ThemeRatings[i] = mapped;
+                        break;
+                    }
+                }
+            }
+
+            await _themeRepository.Update(theme);
+        }
     }
 }

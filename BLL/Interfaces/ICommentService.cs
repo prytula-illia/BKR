@@ -6,5 +6,6 @@ namespace BLL.Interfaces
     public interface ICommentService : ICrudService<CommentDto>
     {
         public Task<int> Create(int studyingMaterialId, CommentDto entity);
+        Task UpdateRating(CommentRatingsDto dto);
     }
 }

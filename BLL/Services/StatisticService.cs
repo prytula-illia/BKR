@@ -47,7 +47,7 @@ namespace BLL.Services
 
         public IEnumerable<UserStatisticsDto> GetAll()
         {
-            var statistic = _statisticRepository.GetAll();
+            var statistic = _statisticRepository.GetAllStatisticsWithNested();
 
             return _mapper.Map<IEnumerable<UserStatisticsDto>>(statistic);
         }
@@ -61,7 +61,13 @@ namespace BLL.Services
         public async Task<float> GetThemesFinishedRateForCourse(int statisticId, int courseId)
         {
             var statistic = _statisticRepository.GetWithNestedData(statisticId);
+            if (statistic is null)
+                return 0;
             var course = await _courseRepository.GetCourseWithAllNestedData(courseId);
+            if(course is null)
+            {
+                return 0;
+            }
 
             var allCount = course.Themes?.Count;
             if (allCount == 0)

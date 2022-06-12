@@ -18,10 +18,6 @@ export class UserService {
     this.updateStatistic();
   }
 
-  grantRole(userName : string) {
-    
-  }
-
   updateStatistic() {
     this.getUserStatistic().subscribe({
       next: (res) => {
@@ -33,6 +29,10 @@ export class UserService {
 
   getUserStatistic() {
     return this.http.get(this.baseUrl + this.loginService.getCurrentUserName());
+  }
+
+  getAllUserStatistic(){
+    return this.http.get(this.baseUrl);
   }
 
   finishTheme(theme : Theme) { 
