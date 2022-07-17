@@ -120,7 +120,7 @@ namespace BLL.Services
                 {
                     if(theme.ThemeRatings[i].Username == dto.Username)
                     {
-                        theme.ThemeRatings[i] = mapped;
+                        theme.ThemeRatings[i].Rating = mapped.Rating;
                         break;
                     }
                 }

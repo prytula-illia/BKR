@@ -93,7 +93,8 @@ namespace BLL.Services
                 {
                     if (comment.CommentRatings[i].Username == dto.Username)
                     {
-                        comment.CommentRatings[i] = mapped;
+                        comment.CommentRatings[i].Dislike = mapped.Dislike;
+                        comment.CommentRatings[i].Like = mapped.Like;
                         break;
                     }
                 }

@@ -29,16 +29,20 @@ export class ThemeService {
           this.courseId = id;
           this.themes = res;
           Swal.close();
-          this.ratings = [];
-          res.forEach((t) => {
-            var res = t.themeRatings.map(x => x.rating).reduce((a,b) => a + b, 0) / t.themeRatings.length;
-            this.ratings.push(res);
-            }
-          )
+          this.recalculateRatings(res);
         
         },
         error: (err) => {console.log(err);}
       }); 
+  }
+
+  recalculateRatings(res : Theme[]) {
+    this.ratings = [];
+    res.forEach((t) => {
+      var res = t.themeRatings.map(x => x.rating).reduce((a,b) => a + b, 0) / t.themeRatings.length;
+      this.ratings.push(res);
+      }
+    )
   }
 
   getThemesForCourse(id : number) {

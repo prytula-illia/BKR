@@ -94,6 +94,7 @@ export class ThemeComponent implements OnInit {
     if(name)
     {
       this.service.themes = this.service.themes.filter(x => x.title.toLowerCase().includes(name.toLowerCase()));
+      this.service.recalculateRatings(this.service.themes);
     }
     else
     {
